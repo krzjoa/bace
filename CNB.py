@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from sklearn.naive_bayes import BaseNB
 import numpy as np
 from collections import Counter
 import NBUtils as nb
@@ -8,7 +9,8 @@ from operator import add, mul, itemgetter
 from prettytable import PrettyTable
 
 
-class CNB:
+class ComplementNB(BaseNB):
+
 	def __init__(self,X,Y, alfa=1):
 		""" X and Y must be numpy arrays """
 		self.X = X
@@ -22,6 +24,16 @@ class CNB:
 		self.complementTermsFrequencies = self._get_complement_frequencies()
 		self.classCounts = self._get_counts_in_classes()
 		self.complementTermsProbabilities = self._get_complement_probabilities()
+
+	def fit(self, X, y):
+		pass
+
+	# def predict_log_proba(self, X):
+	# 	return super(ComplementNB, self).predict_log_proba(X)
+
+	def predict_log_proba(self, X):
+		pass
+
 
 	def classify(self,X):
 		probabs = self.probabilities(X)
