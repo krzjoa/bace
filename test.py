@@ -1,5 +1,5 @@
 import cPickle as pickle
-import CNB as cnb
+import cnb as cnb
 import sys
 import numpy as np
 sys.path.append('/home/krzysztof/Pulpit/Projekt/text2vec')
@@ -23,7 +23,7 @@ Xtest = xNew[4000:]
 Ytrain = yNew[:4000]
 Ytest = yNew[4000:]
 
-klasyfikator = cnb.CNB(Xtrain, Ytrain) 
+klasyfikator = cnb.ComplementNB(Xtrain, Ytrain)
 y_pred =  klasyfikator.predict(Xtest)  
 
 print accuracy_score(y_pred, Ytest) 

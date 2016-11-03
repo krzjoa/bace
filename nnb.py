@@ -3,7 +3,7 @@
 
 import numpy as np
 from collections import Counter
-import NBUtils as nb
+import bayes_utils as nb
 from operator import add, mul, itemgetter
 from sklearn.naive_bayes import BaseNB
 
