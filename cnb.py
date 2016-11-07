@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from sklearn.naive_bayes import BaseDiscreteNB, MultinomialNB
 from sklearn.utils import check_X_y
 import numpy as np
 from collections import Counter
-import bayes_utils as nb
+from bayes_utils import get_rest
+import operator
+from sklearn.naive_bayes import MultinomialNB, BaseNB
 
 # Author; Krzysztof Joachimiak
+
 
 
 class ComplementNB(object):
@@ -16,22 +18,83 @@ class ComplementNB(object):
     def __init__(self, alpha=1.0):
         self.alpha = alpha
         self.counts = None
+        self.class_occurences = dict()
+        self.complement_counts = None
+        self.complement_class_log_probs = dict()
+        self.tokens_in_classes = {}
+        self.complement_tokens_in_classes = {}
+        self.is_fitted = False
 
-    def fit(self, X, y, sample_weight=None):
-        pass
-
-    # def _count(self, X, Y):
-    #     """Count and smooth feature occurrences."""
-    #     if np.any((X.data if issparse(X) else X) < 0):
-    #         raise ValueError("Input X must be non-negative")
-    #     self.feature_count_ += safe_sparse_dot(Y.T, X)
-    #     self.class_count_ += Y.sum(axis=0)
-
-
+    def fit(self, X, y):
+        self.is_fitted = False
+        self.partial_fit(X, y)
+        return self
 
     def partial_fit(self, X, y):
-        check_X_y(X,y)
+        self.class_occurences.update(Counter(y))
+        self._comlement_class_log_prob()
+        self._tokens_in_class(X, y)
+        self._complement_tokens_in_class()
+        return self
 
+    def predict(self, X):
+        predictions = []
+        for row in X:
+            class_proba = []
+            for class_name in self.complement_class_log_probs:
+                class_proba.append((class_name, self._compute_probability(class_name, row)))
+            class_proba = sorted(class_proba, key=operator.itemgetter(1), reverse=True)
+            predictions.append(class_proba[0][0])
+        return predictions
+
+    def predict_proba(self):
+        pass
+
+    def predict_log_proba(self):
+        pass
+
+    def score(self, X, y):
+        pass
+
+
+    def get_params(self):
+        return self.__dict__
+
+    def set_params(self, **params):
+        self.__dict__.update(params)
+        return self
+
+    def _comlement_class_log_prob(self):
+        all_samples_count = sum(self.class_occurences.values())
+        for key in self.class_occurences:
+            self.complement_class_log_probs[key] = np.log(sum(get_rest(key, self.class_occurences))
+                                                          / float(all_samples_count))
+
+    def _tokens_in_class(self, X, y):
+        if not self.is_fitted:
+            self._tokens_in_class_first(X, y)
+        else:
+            self._tokens_in_class_partial(X, y)
+
+    def _tokens_in_class_first(self, X, y):
+        for cl in self.class_occurences.keys():
+            mask = np.where(y == cl)[0]
+            self.tokens_in_classes[cl] = np.sum(X[mask], axis=0)
+
+    def _tokens_in_class_partial(self, X, y):
+        for cl in self.class_occurences.keys():
+            mask = np.where(y == cl)[0]
+            self.tokens_in_classes[cl] += np.sum(X[mask], axis=0)
+
+
+    def _complement_tokens_in_class(self):
+        for class_name in self.tokens_in_classes:
+            self.complement_tokens_in_classes[class_name] = np.sum(get_rest(class_name, self.tokens_in_classes), axis=0)
+
+    def _compute_probability(self, class_name, x_row):
+        ctc = self.complement_tokens_in_classes[class_name]
+        denominator = sum(ctc) + self.alpha
+        return self.complement_class_log_probs[class_name] - (np.sum(x_row * np.log(ctc + self.alpha / denominator)))
 
 
 
@@ -66,11 +129,6 @@ class ComplementNB(object):
         #     for x in X:
         #         predictions.append(self.classify(x))
         #     return predictions
-
-            #
-
-
-
     # def _get_counts(self):
 	# 	v = np.zeros(len(self.X[0]))
 	# 	for i in self.X: v+=i

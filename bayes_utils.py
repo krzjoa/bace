@@ -4,6 +4,11 @@
 import numpy as np
 from collections import defaultdict
 
+
+def get_rest(key, dictionary):
+	return [dictionary[k] for k in dictionary if k != key ]
+
+
 def tfidf(X):
 	#Jako argument przyjmuje tablicę dokumentów
 	pass
