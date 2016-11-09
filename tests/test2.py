@@ -1,10 +1,8 @@
-from cnb import ComplementNB
 from collections import Counter
-from bayes_utils import get_rest
+
 import numpy as np
 
-
-
+from classifiers.cnb import ComplementNB
 
 if __name__ == '__main__':
 
@@ -14,6 +12,5 @@ if __name__ == '__main__':
                   [9, 8, 7, 4, 3, 2, 1, 3]]).T
     d = dict(Counter(y))
     print cnb.is_fitted
-    cnb.fit(X, y)
-    print cnb.tokens_in_classes
-    #print np.where(X == 5, y)
+    print cnb.fit(X, y).score(X, y)
+
