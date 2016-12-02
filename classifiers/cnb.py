@@ -5,15 +5,17 @@ import operator
 from collections import Counter
 import numpy as np
 from sklearn.metrics import accuracy_score
-from utils.bayes_utils import get_rest
+from utils.ut import get_rest
+from base import BaseNB
 
 
 # Author: Krzysztof Joachimiak
 
 
-class ComplementNB(object):
+class ComplementNB(BaseNB):
 
-    def __init__(self, alpha=1.0):
+    def __init__(self, alpha=1.0, weighted=False):
+        super(ComplementNB, self).__init__()
         self.alpha = alpha
         self.counts = None
         self.class_occurences = dict()
@@ -21,7 +23,7 @@ class ComplementNB(object):
         self.complement_class_log_probs = dict()
         self.tokens_in_classes = {}
         self.complement_tokens_in_classes = {}
-        self.is_fitted = False
+        self.weighted = weighted
 
     def fit(self, X, y):
         self.is_fitted = False
@@ -33,9 +35,11 @@ class ComplementNB(object):
         self._comlement_class_log_prob()
         self._tokens_in_class(X, y)
         self._complement_tokens_in_class()
+        self.is_fitted = True
         return self
 
     def predict(self, X):
+        self._check_is_fitted()
         predictions = []
         for row in X:
             class_proba = []
@@ -46,10 +50,12 @@ class ComplementNB(object):
         return predictions
 
     def predict_proba(self, X):
+        self._check_is_fitted()
         log_proba = self.predict_log_proba(X)
         return [np.exp(lp) for lp in log_proba]
 
     def predict_log_proba(self, X):
+        self._check_is_fitted()
         predictions = []
         for row in X:
             class_proba = []
@@ -59,14 +65,15 @@ class ComplementNB(object):
         return predictions
 
     def score(self, X, y):
+        self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
 
     def get_params(self):
         return self.__dict__
 
-    def set_params(self, **params):
-        self.__dict__.update(params)
-        return self
+    # def set_params(self, **params):
+    #     self.__dict__.update(params)
+    #     return self
 
     def _comlement_class_log_prob(self):
         all_samples_count = sum(self.class_occurences.values())
@@ -97,4 +104,9 @@ class ComplementNB(object):
     def _compute_probability(self, class_name, x_row):
         ctc = self.complement_tokens_in_classes[class_name]
         denominator = sum(ctc) + self.alpha
-        return self.complement_class_log_probs[class_name] - (np.sum(x_row * np.log(ctc + self.alpha / denominator)))
+        #lp = (np.sum(x_row * np.log(ctc + self.alpha / denominator)))
+        lp = (np.sum(self.safe_mult(x_row, np.log(ctc + self.alpha / denominator))))
+        return self.complement_class_log_probs[class_name] - lp
+
+    def _compute_weights(self):
+        pass

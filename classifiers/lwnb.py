@@ -3,11 +3,9 @@
 
 import operator
 from collections import Counter
-
 import numpy as np
 from sklearn.metrics import accuracy_score
-
-from utils.bayes_utils import get_rest
+from utils.ut import get_rest
 
 
 # Author: Krzysztof Joachimiak
