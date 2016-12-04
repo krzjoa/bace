@@ -3,14 +3,21 @@ from abc import ABCMeta, abstractmethod
 from scipy.sparse import csr_matrix
 import warnings
 from sklearn.preprocessing import LabelBinarizer
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, roc_auc_score
+
+
+# Warnings
 
 
 class AlphaZeroWarning(Warning):
     pass
 
+
 class NotImplementedYet(Warning):
     pass
+
+
+# Base Naive Bayes classifier class
 
 
 class BaseNB(object):
@@ -81,9 +88,29 @@ class BaseNB(object):
     def _reset(self):
         ''''''
 
-    def score(self, X, y):
+    # Scores
+
+    def accuracy_score(self, X, y):
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
+
+    def f1_score(self, X, y):
+        self._check_is_fitted()
+        return f1_score(y, self.predict(X))
+
+    def precision_score(self, X, y):
+        self._check_is_fitted()
+        return precision_score(y, self.predict(X))
+
+    def recall_score(self, X, y):
+        self._check_is_fitted()
+        return recall_score(y, self.predict(X))
+
+    def roc_auc_score(self, X, y):
+        self._check_is_fitted()
+        return roc_auc_score(y, self.predict(X))
+
+    # Checking params & states
 
     def _check_is_fitted(self):
         if not self.is_fitted:
@@ -93,10 +120,8 @@ class BaseNB(object):
         if self.alpha == 0.0:
             warnings.warn('Alpha sholud not be zero. It may cause division by zero', AlphaZeroWarning)
 
-    #
     def _not_implemented_yet(self, message):
         warnings.warn(NotImplementedYet(message))
-
 
     def safe_mult(self, input_array, internal_array):
         if isinstance(input_array, csr_matrix):

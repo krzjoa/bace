@@ -1,6 +1,7 @@
 # Bayes
 Python implementations of Naive Bayes algorithm variations with sklearn-like API.
 
+## Algorithms
 
 ### Complement Naive Bayes
 
@@ -15,21 +16,44 @@ The point is to compute probability for a given class <i>c</i> on all the classe
 </p>
 
 
-![Image of Yaktocat](./img/eq1.png)
+![Equation 1](./img/eq1.png)
 
-##### Usage
+## Usage
+
+Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/developers/contributing.html#contributing-code) API, so usage is very simple.
+
 
 ``` python
 from Bayes import ComplementNB
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import CountVectorizer
 
+
+vectorizer = CountVectorizer()
+categories = ['alt.atheism', 'talk.religion.misc',
+              'comp.graphics', 'sci.space']
+
+# Train set
+newsgroups_train = fetch_20newsgroups(subset='train',
+                                          categories=categories, shuffle=True)
+X_train = vectorizer.fit_transform(newsgroups_train.data)
+y_train = newsgroups_train.target
+
+# Test set
+newsgroups_test = fetch_20newsgroups(subset='test',
+                                          categories=categories, shuffle=True)
+X_test = vectorizer.fit_transform(newsgroups_test.data)
+y_test = newsgroups_test.target
+
+# Score 
 cnb = ComplementNB()
-cnb.fit(X, y).score(X, y)
+cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 ```
 
 
 
 
-### Negation Naive Bayes 
-
-TODO
-
+## TODO list
+* Weighted Complement Naive Bayes
+* Negation Naive Bayes
+* Locally Weighted Naive Bayes
