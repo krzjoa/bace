@@ -20,7 +20,7 @@ The point is to compute probability for a given class <i>c</i> on all the classe
 
 ## Usage
 
-Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/developers/contributing.html#contributing-code) API, so usage is very simple.
+Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/modules/classes.html) API, so usage is very simple.
 
 
 ``` python
@@ -57,3 +57,4 @@ cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 * Weighted Complement Naive Bayes
 * Negation Naive Bayes
 * Locally Weighted Naive Bayes
+* Add project Wiki
