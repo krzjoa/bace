@@ -3,7 +3,7 @@ Python implementations of Naive Bayes algorithm variations with sklearn-like API
 
 ## Algorithms
 
-### Complement Naive Bayes
+#### Complement Naive Bayes
 
 <p align='justify'>
 Complement Naive Bayes was coined as a way to tackle some Naive Bayes limitations. 
@@ -17,6 +17,11 @@ The point is to compute probability for a given class <i>c</i> on all the classe
 
 
 ![Equation 1](./img/eq1.png)
+
+### Negation Naive Bayes
+
+<i><a href='http://www.aclweb.org/anthology/R11-1083.pdf'>Negation Naive Bayes for Categorization of Product Pages on the Web</a><
+
 
 ## Usage
 
@@ -57,4 +62,6 @@ cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 * Weighted Complement Naive Bayes
 * Negation Naive Bayes
 * Locally Weighted Naive Bayes
+* Universal-set Naive Bayes Classifier
+* Selective Naive Bayes Classifier
 * Add project Wiki

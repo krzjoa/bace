@@ -23,7 +23,7 @@ class ComplementNB(BaseNB):
     ----------
     alpha: float
         Smoothing parameter
-    weighted: bool, default False
+    weight_normalized: bool, default False
         Enable Weight-normalized Complement Naive Bayes method.
 
     References
@@ -34,7 +34,7 @@ class ComplementNB(BaseNB):
     https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
     '''
 
-    def __init__(self, alpha=1.0, weighted=False):
+    def __init__(self, alpha=1.0, weight_normalized=False):
         super(ComplementNB, self).__init__()
 
         # Params
@@ -42,18 +42,18 @@ class ComplementNB(BaseNB):
         self.alpha_sum_ = None
         self._check_alpha_param()
 
-        if weighted:
+        if weight_normalized:
             self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
 
-        # TODO: Implement Weighted Naive Bayes
-        self.weighted = weighted
+        self.weight_normalized = weight_normalized
 
         # Computed attributes
         self.classes_ = None
         self.class_counts_ = None
-        self.complement_class_log_proba_ = None
+        # self.complement_class_log_proba_ = None
+        self.class_log_proba_ = None
         self.complement_features_ = None
-        self.complement_class_counts_ = None
+        # self.complement_class_counts_ = None
 
     def fit(self, X, y):
         self._reset()
@@ -71,15 +71,16 @@ class ComplementNB(BaseNB):
     def predict(self, X):
         return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
 
-    def score(self, X, y):
-        return accuracy_score(y, self.predict(X))
-
     def predict_log_proba(self, X):
         self._check_is_fitted()
         denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
-        features_logprob = np.log((self.complement_features + self.alpha) / denominator)
-        features_doc_logprob = self.safe_matmult(X, features_logprob.T)
-        return (features_doc_logprob * -1) + self.complement_class_log_proba_
+        features_weights = np.log((self.complement_features + self.alpha) / denominator)
+
+        if self.weight_normalized:
+            features_weights = features_weights / np.sum(np.absolute(features_weights))
+
+        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        return (features_doc_logprob * -1) + self.class_log_proba_
 
     def get_params(self):
         return self.__dict__
@@ -109,25 +110,45 @@ class ComplementNB(BaseNB):
         if not self.classes_:
             self.classes_ = lb.classes_
 
-        self._complement_class_log_prob()
-        self._features_in_class(X, y, y_one_hot)
+        self._class_log_prob()
+        self._features_in_class(X, y_one_hot)
         self.is_fitted = True
 
-    def _complement_class_log_prob(self):
+    def _class_log_prob(self):
+        '''
+        Compute complement probability of class occurence
+        '''
         all_samples_count = np.float64(np.sum(self.class_counts_))
-        self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
-        self.complement_class_log_proba_ = np.log(self.complement_class_counts_ / all_samples_count)
+        # self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
+        # self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
+        self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
 
-    def _features_in_class(self, X, y, y_one_hot):
+    def _features_in_class(self, X, y_one_hot):
+        '''
+
+        Compute complement features counts
+
+        Parameters
+        ----------
+        X: numpy array (n_samples, n_features)
+            Matrix of input samples
+        y_one_hot: numpy array (n_samples, n_classes)
+            Binary matrix encoding input
+        '''
         if not self.is_fitted:
             self.complement_features = X.T.dot(np.logical_not(y_one_hot))
         else:
             self.complement_features += X.T.dot(np.logical_not(y_one_hot))
 
     def _reset(self):
+        '''
+
+        Reset object params for refit
+
+        '''
         self.classes_ = None
         self.class_counts_ = None
-        self.complement_class_log_proba_ = None
+        self.class_log_proba_ = None
         self.complement_features_ = None
         self.complement_class_counts_ = None
-        self.complement_class_log_proba_ = None
+        self.class_log_proba_ = None

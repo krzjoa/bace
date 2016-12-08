@@ -94,21 +94,21 @@ class BaseNB(object):
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
 
-    def f1_score(self, X, y):
-        self._check_is_fitted()
-        return f1_score(y, self.predict(X))
-
-    def precision_score(self, X, y):
-        self._check_is_fitted()
-        return precision_score(y, self.predict(X))
-
-    def recall_score(self, X, y):
-        self._check_is_fitted()
-        return recall_score(y, self.predict(X))
-
-    def roc_auc_score(self, X, y):
-        self._check_is_fitted()
-        return roc_auc_score(y, self.predict(X))
+    # def f1_score(self, X, y):
+    #     self._check_is_fitted()
+    #     return f1_score(y, self.predict(X))
+    #
+    # def precision_score(self, X, y):
+    #     self._check_is_fitted()
+    #     return precision_score(y, self.predict(X))
+    #
+    # def recall_score(self, X, y):
+    #     self._check_is_fitted()
+    #     return recall_score(y, self.predict(X))
+    #
+    # def roc_auc_score(self, X, y):
+    #     self._check_is_fitted()
+    #     return roc_auc_score(y, self.predict(X))
 
     # Checking params & states
 

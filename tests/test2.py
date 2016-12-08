@@ -1,6 +1,6 @@
 from collections import Counter
 import numpy as np
-from classifiers.cnb import ComplementNB
+from classifiers import ComplementNB, NegationNB
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -8,9 +8,9 @@ from sklearn.metrics import accuracy_score
 
 if __name__ == '__main__':
 
-    cnb = ComplementNB(alpha=1., weighted=True)
+    cnb = NegationNB(alpha=1., weight_normalized=False)
     mnb = MultinomialNB()
-    vectorizer = TfidfVectorizer()
+    vectorizer = CountVectorizer()
 
     categories = ['alt.atheism', 'talk.religion.misc',
                   'comp.graphics', 'sci.space']
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     #print cnb.predict_proba(test_vectors)
 
-    print cnb.score(test_vectors, newsgroups_test.target)
+    print cnb.accuracy_score(test_vectors, newsgroups_test.target)
 
     # import pdb
     # pdb.set_trace()
