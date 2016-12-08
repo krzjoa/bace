@@ -20,7 +20,7 @@ The point is to compute probability for a given class <i>c</i> on all the classe
 
 #### Negation Naive Bayes
 
-<i><a href='http://www.aclweb.org/anthology/R11-1083.pdf'>Negation Naive Bayes for Categorization of Product Pages on the Web</a>
+<i><a href='http://www.aclweb.org/anthology/R11-1083.pdf'>Negation Naive Bayes for Categorization of Product Pages on the Web</a></i>
 
 
 ## Usage
