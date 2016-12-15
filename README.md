@@ -10,10 +10,12 @@ Complement Naive Bayes was coined as a way to tackle some Naive Bayes limitation
 It was presented in 2003 in the paper
  <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
  by Rennie J. D. M. et al. 
-According to the authors, classic Naive Bayes Classifier tends to be biased in case of skewed data. 
-Obviously, this characteristic is just a feature of NB classifier, but in some situations it may be cause misclassification.  
-The point is to compute probability for a given class <i>c</i> on all the classes except <i>c</i>.
 </p>
+
+#### Weight-normalized Complement Naive Bayes
+
+This method is a variant of Complement Naive Bayes with weigths normalization.
+<i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
 
 
 ![Equation 1](./img/eq1.png)
@@ -23,13 +25,14 @@ The point is to compute probability for a given class <i>c</i> on all the classe
 <i><a href='http://www.aclweb.org/anthology/R11-1083.pdf'>Negation Naive Bayes for Categorization of Product Pages on the Web</a></i>
 
 
+
 ## Usage
 
 Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/modules/classes.html) API, so usage is very simple.
 
 
 ``` python
-from Bayes import ComplementNB
+from Bayes.classifiers import ComplementNB
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 

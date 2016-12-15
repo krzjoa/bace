@@ -77,7 +77,7 @@ class ComplementNB(BaseNB):
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
 
         if self.weight_normalized:
-            features_weights = features_weights / np.sum(np.absolute(features_weights))
+            features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
 
         features_doc_logprob = self.safe_matmult(X, features_weights.T)
         return (features_doc_logprob * -1) + self.class_log_proba_
@@ -119,8 +119,6 @@ class ComplementNB(BaseNB):
         Compute complement probability of class occurence
         '''
         all_samples_count = np.float64(np.sum(self.class_counts_))
-        # self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
-        # self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
         self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
 
     def _features_in_class(self, X, y_one_hot):

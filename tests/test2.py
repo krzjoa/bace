@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 
 if __name__ == '__main__':
 
-    cnb = NegationNB(alpha=1., weight_normalized=False)
+    cnb = ComplementNB(alpha=1., weight_normalized=True)
     mnb = MultinomialNB()
     vectorizer = CountVectorizer()
 
