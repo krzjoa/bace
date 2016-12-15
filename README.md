@@ -15,8 +15,7 @@ Obviously, this characteristic is just a feature of NB classifier, but in some s
 The point is to compute probability for a given class <i>c</i> on all the classes except <i>c</i>.
 </p>
 
-
-![Equation 1](./img/eq1.png)
+<img align='center' src='https://github.com/krzjoa/Bayes/blob/master/img/eq1.png'>
 
 #### Negation Naive Bayes
 
