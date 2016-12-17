@@ -6,16 +6,14 @@ Python implementations of Naive Bayes algorithm variations with sklearn-like API
 #### Complement Naive Bayes
 
 <p align='justify'>
-Complement Naive Bayes was coined as a way to tackle some Naive Bayes limitations. 
-It was presented in 2003 in the paper
- <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
+Complement Naive Bayes classifier performs classification by equation:
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb.png'></p>
+More: <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
  by Rennie J. D. M. et al. 
-According to the authors, classic Naive Bayes Classifier tends to be biased in case of skewed data. 
-Obviously, this characteristic is just a feature of NB classifier, but in some situations it may be cause misclassification.  
-The point is to compute probability for a given class <i>c</i> on all the classes except <i>c</i>.
+
 </p>
 
-<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq1.png'></p>
+
 
 #### Negation Naive Bayes
 
