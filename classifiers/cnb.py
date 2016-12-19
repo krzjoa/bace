@@ -50,10 +50,8 @@ class ComplementNB(BaseNB):
         # Computed attributes
         self.classes_ = None
         self.class_counts_ = None
-        # self.complement_class_log_proba_ = None
         self.class_log_proba_ = None
         self.complement_features_ = None
-        # self.complement_class_counts_ = None
 
     def fit(self, X, y):
         self._reset()

@@ -8,9 +8,9 @@ from sklearn.metrics import accuracy_score
 
 if __name__ == '__main__':
 
-    cnb = ComplementNB(alpha=1., weight_normalized=True)
+    cnb = NegationNB(alpha=1.)
     mnb = MultinomialNB()
-    vectorizer = CountVectorizer()
+    vectorizer = TfidfVectorizer()
 
     categories = ['alt.atheism', 'talk.religion.misc',
                   'comp.graphics', 'sci.space']

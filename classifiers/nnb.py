@@ -32,18 +32,13 @@ class NegationNB(BaseNB):
     http://www.aclweb.org/anthology/R11-1083.pdf
     '''
 
-    def __init__(self, alpha=1.0, weight_normalized=False):
+    def __init__(self, alpha=1.0):
         super(NegationNB, self).__init__()
 
         # Params
         self.alpha = alpha
         self.alpha_sum_ = None
         self._check_alpha_param()
-
-        if weight_normalized:
-            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
-
-        self.weight_normalized = weight_normalized
 
         # Computed attributes
         self.classes_ = None
@@ -74,9 +69,6 @@ class NegationNB(BaseNB):
         self._check_is_fitted()
         denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
-
-        if self.weight_normalized:
-            features_weights = features_weights / np.sum(np.absolute(features_weights))
 
         features_doc_logprob = self.safe_matmult(X, features_weights.T)
         return (features_doc_logprob * -1) + self.class_log_proba_
@@ -117,11 +109,11 @@ class NegationNB(BaseNB):
         '''
         Compute complement probability of class occurence
         '''
-        # TODO: Sprawdzić ten fragment!
         all_samples_count = np.float64(np.sum(self.class_counts_))
         self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
+        self.complement_class_proba_ = (self.complement_class_counts_  / all_samples_count) ** -1
         self.class_log_proba_ = np.log(self.complement_class_counts_)
-        # self.class_log_proba_ = np.log(-1 * (self.class_counts_ / all_samples_count) + 1)
+
 
     def _features_in_class(self, X, y_one_hot):
         '''

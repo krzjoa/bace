@@ -14,7 +14,7 @@ from scipy.sparse import csr_matrix
 # Author: Krzysztof Joachimiak
 
 
-class ComplementNB(BaseNB):
+class LocallyWeightedNB(BaseNB):
 
     '''
     Locally Weighted Naive Bayes classifier
@@ -34,7 +34,7 @@ class ComplementNB(BaseNB):
     '''
 
     def __init__(self, alpha=1.0, weight_normalized=False):
-        super(ComplementNB, self).__init__()
+        super(LocallyWeightedNB, self).__init__()
 
         # Params
         self.alpha = alpha
