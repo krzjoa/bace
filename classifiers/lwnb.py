@@ -6,65 +6,80 @@ from collections import Counter
 import numpy as np
 from sklearn.metrics import accuracy_score
 from utils.ut import get_rest
-
+from utils.bayes_utils import get_complement_matrix
+from base import BaseNB
+from sklearn.preprocessing import LabelBinarizer
+from scipy.sparse import csr_matrix
 
 # Author: Krzysztof Joachimiak
 
 
-class LocallyWeightedNB(object):
+class ComplementNB(BaseNB):
 
+    '''
+    Locally Weighted Naive Bayes classifier
 
+    Parameters
+    ----------
+    alpha: float
+        Smoothing parameter
+    weight_normalized: bool, default False
+        Enable Weight-normalized Complement Naive Bayes method.
 
-    def __init__(self, alpha=1.0):
+    References
+    ----------
+    Frank E., Hall M., Pfahringer B. (2003).
 
-        raise Exception("Not implemented yet!")
+    http://www.cs.waikato.ac.nz/~eibe/pubs/UAI_200.pdf
+    '''
 
+    def __init__(self, alpha=1.0, weight_normalized=False):
+        super(ComplementNB, self).__init__()
+
+        # Params
         self.alpha = alpha
-        self.counts = None
-        self.class_occurences = dict()
-        self.complement_counts = None
-        self.complement_class_log_probs = dict()
-        self.tokens_in_classes = {}
-        self.complement_tokens_in_classes = {}
-        self.is_fitted = False
+        self.alpha_sum_ = None
+        self._check_alpha_param()
+
+        if weight_normalized:
+            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
+
+        self.weight_normalized = weight_normalized
+
+        # Computed attributes
+        self.classes_ = None
+        self.class_counts_ = None
+        # self.complement_class_log_proba_ = None
+        self.class_log_proba_ = None
+        self.complement_features_ = None
+        # self.complement_class_counts_ = None
 
     def fit(self, X, y):
-        self.is_fitted = False
-        self.partial_fit(X, y)
+        self._reset()
+        self._partial_fit(X, y)
         return self
 
-    def partial_fit(self, X, y):
-        self.class_occurences.update(Counter(y))
-        self._comlement_class_log_prob()
-        self._tokens_in_class(X, y)
-        self._complement_tokens_in_class()
+    def partial_fit(self, X, y, classes=None):
+        self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
         return self
-
-    def predict(self, X):
-        predictions = []
-        for row in X:
-            class_proba = []
-            for class_name in self.complement_class_log_probs:
-                class_proba.append((class_name, self._compute_probability(class_name, row)))
-            class_proba = sorted(class_proba, key=operator.itemgetter(1), reverse=True)
-            predictions.append(class_proba[0][0])
-        return predictions
 
     def predict_proba(self, X):
-        log_proba = self.predict_log_proba(X)
-        return [np.exp(lp) for lp in log_proba]
+        # TODO: Handle float exponent error
+        return np.exp(self.predict_log_proba(X))
+
+    def predict(self, X):
+        return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
 
     def predict_log_proba(self, X):
-        predictions = []
-        for row in X:
-            class_proba = []
-            for class_name in self.complement_class_log_probs:
-                class_proba.append(self._compute_probability(class_name, row))
-            predictions.append(class_proba)
-        return predictions
+        self._check_is_fitted()
+        denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
+        features_weights = np.log((self.complement_features + self.alpha) / denominator)
 
-    def score(self, X, y):
-        return accuracy_score(y, self.predict(X))
+        if self.weight_normalized:
+            features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
+
+        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        return (features_doc_logprob * -1) + self.class_log_proba_
 
     def get_params(self):
         return self.__dict__
@@ -73,34 +88,64 @@ class LocallyWeightedNB(object):
         self.__dict__.update(params)
         return self
 
-    def _comlement_class_log_prob(self):
-        all_samples_count = sum(self.class_occurences.values())
-        for key in self.class_occurences:
-            self.complement_class_log_probs[key] = np.log(sum(get_rest(key, self.class_occurences))
-                                                          / float(all_samples_count))
+    # Fitting model
 
-    def _tokens_in_class(self, X, y):
+    def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
+
+        if first_partial_fit and not classes:
+            raise ValueError("classes must be passed on the first call "
+                         "to partial_fit.")
+
         if not self.is_fitted:
-            self._tokens_in_class_first(X, y)
+            self.alpha_sum_ = X.shape[1] * self.alpha
+
+        if classes:
+            self.classes_ = classes
+
+        lb = LabelBinarizer()
+        y_one_hot = lb.fit_transform(y)
+        self.class_counts_ = np.sum(y_one_hot, axis=0)
+
+        if not self.classes_:
+            self.classes_ = lb.classes_
+
+        self._class_log_prob()
+        self._features_in_class(X, y_one_hot)
+        self.is_fitted = True
+
+    def _class_log_prob(self):
+        '''
+        Compute complement probability of class occurence
+        '''
+        all_samples_count = np.float64(np.sum(self.class_counts_))
+        self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
+
+    def _features_in_class(self, X, y_one_hot):
+        '''
+
+        Compute complement features counts
+
+        Parameters
+        ----------
+        X: numpy array (n_samples, n_features)
+            Matrix of input samples
+        y_one_hot: numpy array (n_samples, n_classes)
+            Binary matrix encoding input
+        '''
+        if not self.is_fitted:
+            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
         else:
-            self._tokens_in_class_partial(X, y)
+            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
 
-    def _tokens_in_class_first(self, X, y):
-        for cl in self.class_occurences.keys():
-            mask = np.where(y == cl)[0]
-            self.tokens_in_classes[cl] = np.sum(X[mask], axis=0)
+    def _reset(self):
+        '''
 
-    def _tokens_in_class_partial(self, X, y):
-        for cl in self.class_occurences.keys():
-            mask = np.where(y == cl)[0]
-            self.tokens_in_classes[cl] += np.sum(X[mask], axis=0)
+        Reset object params for refit
 
-
-    def _complement_tokens_in_class(self):
-        for class_name in self.tokens_in_classes:
-            self.complement_tokens_in_classes[class_name] = np.sum(get_rest(class_name, self.tokens_in_classes), axis=0)
-
-    def _compute_probability(self, class_name, x_row):
-        ctc = self.complement_tokens_in_classes[class_name]
-        denominator = sum(ctc) + self.alpha
-        return self.complement_class_log_probs[class_name] - (np.sum(x_row * np.log(ctc + self.alpha / denominator)))
+        '''
+        self.classes_ = None
+        self.class_counts_ = None
+        self.class_log_proba_ = None
+        self.complement_features_ = None
+        self.complement_class_counts_ = None
+        self.class_log_proba_ = None

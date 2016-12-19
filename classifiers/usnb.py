@@ -28,10 +28,10 @@ class UniversalSetNB(BaseNB):
 
     References
     ----------
-    Rennie J. D. M., Shih L., Teevan J., Karger D. R.  (2003).
-    Tackling the Poor Assumptions of Naive Bayes Text Classifiers
+    Komiya K., Ito Y., Kotani Y. (2013).
+    New Naive Bayes Methods using Data from All Classes
 
-    https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
+    http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf
     '''
 
     def __init__(self, alpha=1.0, weight_normalized=False):
