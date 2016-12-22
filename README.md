@@ -7,9 +7,9 @@ Python implementations of Naive Bayes algorithm variations with sklearn-like API
 
 <p align='justify'>
 Complement Naive Bayes classifier performs classification by the following equation:
-<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb.png'></p>
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb.png' height="60%" width="60%"></p>
 Where:
-<p align='left'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/cnb_explanation.png'></p>
+<p align='left'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/cnb_explanation.png' height="60%" width="60%"></p>
 
 More: <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
  by Rennie J. D. M. et al. 
