@@ -9,7 +9,7 @@ Python implementations of Naive Bayes algorithm variations with sklearn-like API
 Complement Naive Bayes classifier performs classification by the following equation:
 <p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb.png' height="60%" width="60%"></p>
 Where:
-<p align='left'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/cnb_explanation.png' height="60%" width="60%"></p>
+<p align='left'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/explanation_cnb.png' height="60%" width="60%"></p>
 
 More: <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
  by Rennie J. D. M. et al. 
@@ -18,11 +18,11 @@ More: <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tac
 
 #### Weight-normalized Complement Naive Bayes
 Weight normalized CNB changes one element in the CNB equation. Instead of:
-<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb_w.png' height="60%" width="60%"></p>
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_cnb_w.png' height="90%" width="90%"></p>
 
 the following formula is used:
 
-<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_wcnb_w.png' height="60%" width="60%"></p>
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/eq_wcnb_w.png' height="90%" width="90%"></p>
 
 This method is described in the paper: 
 <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
