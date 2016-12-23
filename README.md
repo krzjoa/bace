@@ -28,6 +28,8 @@ This method is described in the paper:
 <i><a href='https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf'>Tackling the Poor Assumptions of Naive Bayes Text Classifiers</a></i>
 #### Negation Naive Bayes
 
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/nnb.png' height="60%" width="60%"></p>
+
 <i><a href='http://www.aclweb.org/anthology/R11-1083.pdf'>Negation Naive Bayes for Categorization of Product Pages on the Web</a></i>
 
 #### Universal-set Naive Bayes
