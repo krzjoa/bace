@@ -34,9 +34,13 @@ This method is described in the paper:
 
 #### Universal-set Naive Bayes
 
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/unb.png' height="60%" width="60%"></p>
+
 <i><a href='http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf'>New Naive Bayes Methods using Data from All Classes</a></i>
 
 #### Selective Naive Bayes
+
+<p align='center'><img  src='https://github.com/krzjoa/Bayes/blob/master/img/snb.png' height="60%" width="60%"></p>
 
 <i><a href='http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf'>New Naive Bayes Methods using Data from All Classes</a></i>
 
