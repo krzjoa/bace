@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 #
 # Bayes documentation build configuration file, created by
 # sphinx-quickstart on Mon Dec 26 22:01:01 2016.
@@ -16,9 +17,12 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os,sys
+
+
+sys.path.insert(0, os.path.abspath('../..'))
+import bayes
+
 
 # -- General configuration ------------------------------------------------
 
@@ -29,7 +33,7 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.napoleon', 'sphinx.ext.viewcode', 'sphinx.ext.autosummary']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -119,7 +123,13 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+#html_theme = 'default'
+
+import sphinx_rtd_theme
+
+html_theme = "sphinx_rtd_theme"
+
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

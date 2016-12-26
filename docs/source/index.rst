@@ -6,11 +6,14 @@
 Welcome to Bayes's documentation!
 =================================
 
+
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
+    bayes
 
 
 Indices and tables

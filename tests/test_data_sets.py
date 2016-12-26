@@ -1,5 +1,6 @@
 import unittest
-from datasets.data_utils import download, get_tarfile
+
+from bayes.datasets import get_tarfile
 
 
 class TestDataSets(unittest.TestCase):

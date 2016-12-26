@@ -55,7 +55,7 @@ Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/modul
 
 
 ``` python
-from Bayes.classifiers import ComplementNB
+from bayes.classifiers import ComplementNB
 from sklearn.datasets import fetch_20newsgroups
 from sklearn.feature_extraction.text import CountVectorizer
 

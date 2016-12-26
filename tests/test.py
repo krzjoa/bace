@@ -1,10 +1,6 @@
-import cPickle as pickle
-import sys
-
-from classifiers import cnb as cnb
-from sklearn.preprocessing import LabelBinarizer
 import numpy as np
-from utils.bayes_utils import get_complement_matrix
+
+from bayes.utils import get_complement_matrix
 
 x = np.array([1, 30, 4, 3, 30])
 

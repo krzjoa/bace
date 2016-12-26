@@ -1,10 +1,9 @@
-from collections import Counter
-import numpy as np
-from classifiers import ComplementNB, NegationNB
 from sklearn.datasets import fetch_20newsgroups
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score
+from sklearn.naive_bayes import MultinomialNB
+
+from bayes.classifiers import NegationNB
 
 if __name__ == '__main__':
 

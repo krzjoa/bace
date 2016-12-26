@@ -1,8 +1,8 @@
 import unittest
-from collections import Counter
-import numpy as np
-from classifiers.cnb import ComplementNB
+
 from sklearn.datasets import fetch_20newsgroups
+
+from bayes.classifiers import ComplementNB
 
 
 class TestCNB(unittest.TestCase):
