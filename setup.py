@@ -27,13 +27,13 @@ doclink = """
 Documentation
 -------------
 The full documentation is at http://bayes.rtfd.org."""
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+#history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
-    name='brew',
+    name='bayes-variants',
     version=VERSION,
     description='Bayes',
-    long_description=readme + '\n\n' + doclink + '\n\n' + history,
+    long_description=readme + '\n\n' + doclink + '\n\n',  #+ history,
     author='Krzysztof Joachimiak',
     # author_email='',
     url='https://github.com/krzjoa/Bayes',
