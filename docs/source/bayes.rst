@@ -1,5 +1,5 @@
-brew package
-============
+bayes package
+=============
 
 Subpackages
 -----------
@@ -7,7 +7,10 @@ Subpackages
 .. toctree::
 
     bayes.classifiers
+    bayes.utils
 
+Submodules
+----------
 
 
 Module contents

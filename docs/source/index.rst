@@ -7,13 +7,12 @@ Welcome to Bayes's documentation!
 =================================
 
 
-
 Contents:
 
 .. toctree::
    :maxdepth: 3
 
-    bayes
+   usage
 
 
 Indices and tables
