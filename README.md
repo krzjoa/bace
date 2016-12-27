@@ -1,10 +1,12 @@
+[![Documentation Status](https://readthedocs.org/projects/bayes/badge/?version=latest)](http://bayes.readthedocs.io/en/latest/?badge=latest)
 # Bayes
 Python implementations of Naive Bayes algorithm variations with sklearn-like API.
 
 ## Algorithms
 
 * Complement Naive Bayes
-* Weight-normalized Complement Naive Bayes
+* Weight-normaliz
+ed Complement Naive Bayes
 * Negation Naive Bayes
 * Universal-set Naive Bayes
 * Selective Naive Bayes
