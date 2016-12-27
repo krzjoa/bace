@@ -1,15 +1,15 @@
 from sklearn.datasets import fetch_20newsgroups
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 
-from bayes.classifiers import NegationNB
+from bayes.classifiers import NegationNB, UniversalSetNB
 
 if __name__ == '__main__':
 
-    cnb = NegationNB(alpha=1.)
+    cnb = UniversalSetNB(alpha=1.)
     mnb = MultinomialNB()
-    vectorizer = TfidfVectorizer()
+    vectorizer = CountVectorizer()
 
     categories = ['alt.atheism', 'talk.religion.misc',
                   'comp.graphics', 'sci.space']

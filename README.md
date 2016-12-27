@@ -47,8 +47,7 @@ cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 ## TODO list
 * Weighted Complement Naive Bayes
 * Locally Weighted Naive Bayes
-* Universal-set Naive Bayes Classifier
 * Selective Naive Bayes Classifier
 * Add unit tests
-* Add project Wiki
+* Add project documentation
 

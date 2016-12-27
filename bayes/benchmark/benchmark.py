@@ -1,6 +1,6 @@
-from base import BaseNB
+from bayes.classifiers.base import BaseNB
 from sklearn.naive_bayes import MultinomialNB
-from . import *
+from bayes.classifiers import *
 
 
 class BenchmarkAll(object):

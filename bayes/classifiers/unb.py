@@ -13,14 +13,12 @@ from base import BaseNB
 class UniversalSetNB(BaseNB):
 
     '''
-    Selective Naive Bayes classifier
+    Universal-set Naive Bayes classifier
 
     Parameters
     ----------
     alpha: float
         Smoothing parameter
-    weight_normalized: bool, default False
-        Enable Weight-normalized Complement Naive Bayes method.
 
     References
     ----------
@@ -30,7 +28,7 @@ class UniversalSetNB(BaseNB):
     http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf
     '''
 
-    def __init__(self, alpha=1.0, weight_normalized=False):
+    def __init__(self, alpha=1.0):
         super(UniversalSetNB, self).__init__()
 
         # Params
@@ -38,18 +36,26 @@ class UniversalSetNB(BaseNB):
         self.alpha_sum_ = None
         self._check_alpha_param()
 
-        if weight_normalized:
-            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
-
-        self.weight_normalized = weight_normalized
-
         # Computed attributes
         self.classes_ = None
         self.class_counts_ = None
-        # self.complement_class_log_proba_ = None
+        #self.complement_class_log_proba_ = None
         self.class_log_proba_ = None
         self.complement_features_ = None
-        # self.complement_class_counts_ = None
+        self.features_ = None
+
+    # @property
+    # def complement_class_count_(self):
+    #     from bayes.utils import get_complement_matrix
+    #     size = self.class_counts_.shape[1]
+    #     return self.class_counts_.dot(get_complement_matrix(size))
+    #
+    # @property
+    # def complement_class_log_proba_(self):
+    #     all_samples_count = np.float64(np.sum(self.class_counts_))
+    #     self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
+    #     return
+
 
     def fit(self, X, y):
         self._reset()
@@ -60,23 +66,12 @@ class UniversalSetNB(BaseNB):
         self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
         return self
 
-    def predict_proba(self, X):
-        # TODO: Handle float exponent error
-        return np.exp(self.predict_log_proba(X))
-
     def predict(self, X):
         return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
 
     def predict_log_proba(self, X):
         self._check_is_fitted()
-        denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
-        features_weights = np.log((self.complement_features + self.alpha) / denominator)
-
-        if self.weight_normalized:
-            features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
-
-        features_doc_logprob = self.safe_matmult(X, features_weights.T)
-        return (features_doc_logprob * -1) + self.class_log_proba_
+        return self._log_proba(X) - self._complement_log_proba(X)
 
     def get_params(self):
         return self.__dict__
@@ -84,6 +79,19 @@ class UniversalSetNB(BaseNB):
     def set_params(self, **params):
         self.__dict__.update(params)
         return self
+
+    # Making predictions
+    def _complement_log_proba(self, X):
+        denominator = np.sum(self.complement_features_, axis=0) + self.alpha_sum_
+        features_weights = np.log((self.complement_features_ + self.alpha) / denominator)
+        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        return (features_doc_logprob) + self.complement_class_log_proba_
+
+    def _log_proba(self, X):
+        denominator = np.sum(self.features_, axis=0) + self.alpha_sum_
+        features_weights = np.log((self.features_ + self.alpha) / denominator)
+        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        return (features_doc_logprob) + self.complement_class_log_proba_
 
     # Fitting model
 
@@ -130,9 +138,11 @@ class UniversalSetNB(BaseNB):
             Binary matrix encoding input
         '''
         if not self.is_fitted:
-            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
+            self.complement_features_ = X.T.dot(np.logical_not(y_one_hot))
+            self.features_ = X.T.dot(y_one_hot)
         else:
-            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
+            self.complement_features_ += X.T.dot(np.logical_not(y_one_hot))
+            self.features_ += X.T.dot(y_one_hot)
 
     def _reset(self):
         '''

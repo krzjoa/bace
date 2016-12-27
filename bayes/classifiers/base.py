@@ -4,7 +4,7 @@ from scipy.sparse import csr_matrix
 import warnings
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, roc_auc_score
-
+import numpy as np
 
 # Warnings
 
@@ -26,6 +26,22 @@ class BaseNB(object):
     def __init__(self):
         self.is_fitted = False
         self.classes_ = None
+        self.class_counts_ = None
+
+
+    # Properties
+
+    @property
+    def complement_class_count_(self):
+        from bayes.utils import get_complement_matrix
+        size = len(self.class_counts_)
+        return self.class_counts_.dot(get_complement_matrix(size))
+
+    @property
+    def complement_class_log_proba_(self):
+        all_samples_count = np.float64(np.sum(self.class_counts_))
+        return np.log(self.complement_class_count_ / all_samples_count)
+
 
     @abstractmethod
     def fit(self, X, y):
@@ -85,8 +101,16 @@ class BaseNB(object):
         """
 
     @abstractmethod
+    def predict_log_proba(self, X):
+        ''''''
+
+    @abstractmethod
     def _reset(self):
         ''''''
+
+    def predict_proba(self, X):
+        # TODO: Handle float exponent error
+        return np.exp(self.predict_log_proba(X))
 
     # Scores
 

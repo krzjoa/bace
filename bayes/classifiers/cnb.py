@@ -58,9 +58,9 @@ class ComplementNB(BaseNB):
         self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
         return self
 
-    def predict_proba(self, X):
-        # TODO: Handle float exponent error
-        return np.exp(self.predict_log_proba(X))
+    # def predict_proba(self, X):
+    #     # TODO: Handle float exponent error
+    #     return np.exp(self.predict_log_proba(X))
 
     def predict(self, X):
         return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
