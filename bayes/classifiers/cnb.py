@@ -30,6 +30,8 @@ class ComplementNB(BaseNB):
     https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
     '''
 
+    __doc__ += BaseNB.__doc__
+
     def __init__(self, alpha=1.0, weight_normalized=False):
         super(ComplementNB, self).__init__()
 
