@@ -9,19 +9,15 @@ Algorithms
 ----------
 
 * Complement Naive Bayes
-* Weight-normaliz
-ed Complement Naive Bayes
 * Negation Naive Bayes
 * Universal-set Naive Bayes
-* Selective Naive Bayes
-* Locally Weighted Naive Bayes
 
 Installation
 ------------
 
-```
-pip install bayes-variants
-```
+.. code-block::
+    pip install bayes-variants
+
 
 
 Usage
