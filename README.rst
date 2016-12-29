@@ -1,10 +1,10 @@
-   |Documentation|_ |Python27|_ |Pypi|_
-   
+|Documentation|_ |Python27|_ |Pypi|_
+
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
 
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/scikit-learn
+.. _Python27: https://badge.fury.io/py/bayes-variants.svg
 
 
 .. |Pypi| image:: https://badge.fury.io/py/imbalanced-learn.svg
