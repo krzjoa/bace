@@ -3,8 +3,8 @@
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
 
-.. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/bayes-variants.svg
+.. |Python27| image:: https://badge.fury.io/py/bayes-variants.svg
+.. _Python27: https://badge.fury.io/py/bayes-variants
 
 
 .. |Pypi| image:: https://badge.fury.io/py/imbalanced-learn.svg
