@@ -1,4 +1,4 @@
-|Documentation|_ |Python27|_ |Pypi|_
+|Documentation|_ |Pypi|_
 
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
