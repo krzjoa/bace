@@ -3,13 +3,12 @@
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-
-from base import BaseNB
-
+from bayes.base import BaseNB
+from bayes.utils import inherit_docstring, safe_matmult, safe_mult
 
 # Author: Krzysztof Joachimiak
 
-
+@inherit_docstring
 class ComplementNB(BaseNB):
 
     '''
@@ -22,6 +21,32 @@ class ComplementNB(BaseNB):
     weight_normalized: bool, default False
         Enable Weight-normalized Complement Naive Bayes method.
 
+    Attributes
+    ----------
+    alpha_sum_ : int
+        Sum of alpha params
+    classes_ : array, shape (n_classes,)
+        Classes list
+    class_count_ : array, shape (n_classes,)
+        number of training samples observed in each class.
+
+    Examples
+    --------
+    >>> from sklearn.datasets import fetch_20newsgroups
+    >>> from sklearn.feature_extraction.text import CountVectorizer
+    >>> from bayes.classifiers import ComplementNB
+    Prepare data
+    >>> vectorizer = CountVectorizer()
+    >>> categories = ['alt.atheism', 'talk.religion.misc','comp.graphics', 'sci.space']
+    Train set
+    >>> newsgroups_train = fetch_20newsgroups(subset='train', categories=categories, shuffle=True)
+    >>> train_vectors = vectorizer.fit_transform(newsgroups_train.data)
+    Test set
+    >>> newsgroups_test = fetch_20newsgroups(subset='test', categories=categories, shuffle=True)
+    >>> test_vectors = vectorizer.transform(newsgroups_test.data)
+    >>> clf = ComplementNB()
+    >>> clf.fit(newsgroups_train, train_vectors).accuracy_score(newsgroups_test, test_vectors)
+
     References
     ----------
     Rennie J. D. M., Shih L., Teevan J., Karger D. R.  (2003).
@@ -30,14 +55,11 @@ class ComplementNB(BaseNB):
     https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
     '''
 
-    __doc__ += BaseNB.__doc__
-
     def __init__(self, alpha=1.0, weight_normalized=False):
         super(ComplementNB, self).__init__()
 
         # Params
         self.alpha = alpha
-        self.alpha_sum_ = None
         self._check_alpha_param()
 
         if weight_normalized:
@@ -46,10 +68,8 @@ class ComplementNB(BaseNB):
         self.weight_normalized = weight_normalized
 
         # Computed attributes
-        self.classes_ = None
-        self.class_counts_ = None
-        self.class_log_proba_ = None
         self.complement_features_ = None
+        self.alpha_sum_ = None
 
     def fit(self, X, y):
         self._reset()
@@ -59,10 +79,6 @@ class ComplementNB(BaseNB):
     def partial_fit(self, X, y, classes=None):
         self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
         return self
-
-    # def predict_proba(self, X):
-    #     # TODO: Handle float exponent error
-    #     return np.exp(self.predict_log_proba(X))
 
     def predict(self, X):
         return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
@@ -75,15 +91,9 @@ class ComplementNB(BaseNB):
         if self.weight_normalized:
             features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
 
-        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        features_doc_logprob = safe_matmult(X, features_weights.T)
         return (features_doc_logprob * -1) + self.class_log_proba_
 
-    def get_params(self):
-        return self.__dict__
-
-    def set_params(self, **params):
-        self.__dict__.update(params)
-        return self
 
     # Fitting model
 
@@ -107,32 +117,9 @@ class ComplementNB(BaseNB):
             self.classes_ = lb.classes_
 
         self._class_log_prob()
-        self._features_in_class(X, y_one_hot)
+        self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
 
-    def _class_log_prob(self):
-        '''
-        Compute complement probability of class occurence
-        '''
-        all_samples_count = np.float64(np.sum(self.class_counts_))
-        self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
-
-    def _features_in_class(self, X, y_one_hot):
-        '''
-
-        Compute complement features counts
-
-        Parameters
-        ----------
-        X: numpy array (n_samples, n_features)
-            Matrix of input samples
-        y_one_hot: numpy array (n_samples, n_classes)
-            Binary matrix encoding input
-        '''
-        if not self.is_fitted:
-            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
-        else:
-            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
 
     def _reset(self):
         '''
@@ -142,7 +129,5 @@ class ComplementNB(BaseNB):
         '''
         self.classes_ = None
         self.class_counts_ = None
-        self.class_log_proba_ = None
         self.complement_features_ = None
         self.complement_class_counts_ = None
-        self.class_log_proba_ = None

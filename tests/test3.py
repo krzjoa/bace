@@ -18,3 +18,8 @@
 # yp = cnb.fit(iris.data, iris.target).score(iris.data, iris.target)
 #
 # print yp
+
+# from bayes.classifiers import *
+#
+# for i in dir(ComplementNB):
+#     pass

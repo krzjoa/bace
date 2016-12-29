@@ -6,6 +6,7 @@
 Welcome to Bayes's documentation!
 =================================
 
+This module contains several variants of well-known Naive Bayes Classifier.
 
 Contents:
 
@@ -13,13 +14,13 @@ Contents:
    :maxdepth: 3
 
    api
+   algorithms
    installation
    usage
-
 
 .. Indices and tables
  ==================
 * :ref:`genindex`
-    * :ref:`modindex`
-    * :ref:`search`
+:ref:`modindex`
+    :ref:`search`
 

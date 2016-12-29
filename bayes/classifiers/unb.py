@@ -3,13 +3,13 @@
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-
-from base import BaseNB
+from bayes.base import BaseNB
+from bayes.utils import safe_matmult, inherit_docstring
 
 
 # Author: Krzysztof Joachimiak
 
-
+@inherit_docstring
 class UniversalSetNB(BaseNB):
 
     '''
@@ -43,19 +43,6 @@ class UniversalSetNB(BaseNB):
         self.class_log_proba_ = None
         self.complement_features_ = None
         self.features_ = None
-
-    # @property
-    # def complement_class_count_(self):
-    #     from bayes.utils import get_complement_matrix
-    #     size = self.class_counts_.shape[1]
-    #     return self.class_counts_.dot(get_complement_matrix(size))
-    #
-    # @property
-    # def complement_class_log_proba_(self):
-    #     all_samples_count = np.float64(np.sum(self.class_counts_))
-    #     self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
-    #     return
-
 
     def fit(self, X, y):
         self._reset()
@@ -114,16 +101,8 @@ class UniversalSetNB(BaseNB):
         if not self.classes_:
             self.classes_ = lb.classes_
 
-        self._class_log_prob()
         self._features_in_class(X, y_one_hot)
         self.is_fitted = True
-
-    def _class_log_prob(self):
-        '''
-        Compute complement probability of class occurence
-        '''
-        all_samples_count = np.float64(np.sum(self.class_counts_))
-        self.class_log_proba_ = np.log(self.class_counts_ / all_samples_count)
 
     def _features_in_class(self, X, y_one_hot):
         '''
@@ -152,7 +131,5 @@ class UniversalSetNB(BaseNB):
         '''
         self.classes_ = None
         self.class_counts_ = None
-        self.class_log_proba_ = None
         self.complement_features_ = None
         self.complement_class_counts_ = None
-        self.class_log_proba_ = None

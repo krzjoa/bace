@@ -3,7 +3,7 @@ Bayes API
 =========
 
 .. toctree::
-       :maxdepth: 1
+       :maxdepth: 2
 
-    bayes.classifiers
-    bayes.utils
+   bayes.classifiers
+   bayes.utils

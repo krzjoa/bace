@@ -4,7 +4,7 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 
-from base import BaseNB
+from bayes.base import BaseNB
 
 
 # Author: Krzysztof Joachimiak

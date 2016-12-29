@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/bayes/badge/?version=latest
+:target: http://bayes.readthedocs.io/en/latest/?badge=latest
+:alt: Documentation Status
+
 
 Bayes
 =====
@@ -15,9 +19,15 @@ Algorithms
 Installation
 ------------
 
-.. code-block::
-    pip install bayes-variants
+You can install this module directly from GitHub repo with command:
 
+.. code-block:: bash
+    pip install https://github.com/krzjoa/Bayes.git
+
+or use **pip**:
+
+.. code-block:: bash
+    pip install bayes-variants
 
 
 Usage

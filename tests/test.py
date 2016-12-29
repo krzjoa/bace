@@ -2,13 +2,13 @@ import numpy as np
 
 from bayes.utils import get_complement_matrix
 
-x = np.array([1, 30, 4, 3, 30])
-
-z = np.array([1, 2, 4, 30, 3, 3, 3, 3, 10, 112132])
-
-print np.hstack((x, z))
-
-print np.array([1, 2, 3]).dot(get_complement_matrix(3))
+# x = np.array([1, 30, 4, 3, 30])
+#
+# z = np.array([1, 2, 4, 30, 3, 3, 3, 3, 10, 112132])
+#
+# print np.hstack((x, z))
+#
+# print np.array([1, 2, 3]).dot(get_complement_matrix(3))
 
 
 
@@ -42,5 +42,11 @@ print np.array([1, 2, 3]).dot(get_complement_matrix(3))
 # y_pred =  klasyfikator.predict(Xtest)
 
 #print accuracy_score(y_pred, Ytest)
+
+from bayes.classifiers import ComplementNB
+from bayes.base import BaseNB
+
+#print ComplementNB()
+
 
 

@@ -1,5 +1,5 @@
-from bayes.classifiers.base import BaseNB
 from sklearn.naive_bayes import MultinomialNB
+
 from bayes.classifiers import *
 
 

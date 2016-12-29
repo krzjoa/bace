@@ -1,30 +1,21 @@
-bayes.utils package
-===================
+Utils
+=====
 
 Submodules
 ----------
 
-bayes.utils.bayes_utils module
-------------------------------
+bayes.utils.math_utils
+----------------------
 
 .. automodule:: bayes.utils.bayes_utils
     :members:
     :undoc-members:
     :show-inheritance:
 
-bayes.utils.ut module
+bayes.utils.doc_utils
 ---------------------
 
-.. automodule:: bayes.utils.ut
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: bayes.utils
+.. automodule:: bayes.utils.bayes_utils
     :members:
     :undoc-members:
     :show-inheritance:

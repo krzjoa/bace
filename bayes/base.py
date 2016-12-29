@@ -5,6 +5,9 @@ import warnings
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, roc_auc_score
 import numpy as np
+from sklearn.base import BaseEstimator
+from sklearn.externals import six
+
 
 # Warnings
 
@@ -20,32 +23,56 @@ class NotImplementedYet(Warning):
 # Base Naive Bayes classifier class
 
 
-class BaseNB(object):
-    __metaclass__ = ABCMeta
+class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
+
+    _estimator_type = "classifier"
 
     def __init__(self):
         self.is_fitted = False
         self.classes_ = None
-        self.class_counts_ = None
-
+        self.class_count_ = None
 
     # Properties
 
     @property
     def complement_class_count_(self):
+        '''
+
+        Complement class count, i.e. number of occurrences of all the samples with
+        all the classes except the given class c
+
+        '''
         from bayes.utils import get_complement_matrix
-        size = len(self.class_counts_)
-        return self.class_counts_.dot(get_complement_matrix(size))
+        size = len(self.class_count_)
+        return self.class_count_.dot(get_complement_matrix(size))
 
     @property
     def complement_class_log_proba_(self):
-        all_samples_count = np.float64(np.sum(self.class_counts_))
+        '''
+
+        Complement class probability, i.e. logprob of occurrence of a sample, which
+        does not belong to the given class c
+
+        '''
+        all_samples_count = np.float64(np.sum(self.class_count_))
         return np.log(self.complement_class_count_ / all_samples_count)
 
+    @property
+    def class_log_proba_(self):
+        '''
+        Log probability of class occurrence
+        '''
+        all_samples_count = np.float64(np.sum(self.class_count_))
+        return np.log(self.class_count_ / all_samples_count)
+
+
+    # Fitting model
 
     @abstractmethod
     def fit(self, X, y):
         '''
+
+        Fit model to given training set
 
         Parameters
         ----------
@@ -56,7 +83,7 @@ class BaseNB(object):
             Target values.
         Returns
         -------
-        self : ComplementNB object
+        self : Naive Bayes estimator object
             Returns self.
         '''
 
@@ -83,7 +110,6 @@ class BaseNB(object):
              Returns self.
         """
 
-
     @abstractmethod
     def predict(self, X):
         """
@@ -100,21 +126,98 @@ class BaseNB(object):
 
         """
 
+    def _update_complement_features(self, X, y_one_hot):
+        '''
+
+        Compute complement features counts
+
+        Parameters
+        ----------
+        X: numpy array (n_samples, n_features)
+            Matrix of input samples
+        y_one_hot: numpy array (n_samples, n_classes)
+            Binary matrix encoding input
+        '''
+        if not self.is_fitted:
+            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
+        else:
+            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
+
+    def _update_features(self, X, y_one_hot):
+        '''
+
+        Compute features counts
+
+        Parameters
+        ----------
+        X: numpy array (n_samples, n_features)
+            Matrix of input samples
+        y_one_hot: numpy array (n_samples, n_classes)
+            Binary matrix encoding input
+        '''
+        if not self.is_fitted:
+            self.features_ = X.T.dot(y_one_hot)
+        else:
+            self.features_ += X.T.dot(y_one_hot)
+
+
+
     @abstractmethod
     def predict_log_proba(self, X):
-        ''''''
+        """
+        Return log-probability estimates for the test vector X.
+        Parameters
+        ----------
+        X : array-like, shape = [n_samples, n_features]
+        Returns
+        -------
+        C : array-like, shape = [n_samples, n_classes]
+            Returns the log-probability of the samples for each class in
+            the model. The columns correspond to the classes in sorted
+            order, as they appear in the attribute `classes_`.
+        """
 
     @abstractmethod
     def _reset(self):
         ''''''
 
     def predict_proba(self, X):
+        """
+        Return probability estimates for the test vector X.
+        Parameters
+        ----------
+        X : array-like, shape = [n_samples, n_features]
+        Returns
+        -------
+        C : array-like, shape = [n_samples, n_classes]
+            Returns the probability of the samples for each class in
+            the model. The columns correspond to the classes in sorted
+            order, as they appear in the attribute `classes_`.
+        """
         # TODO: Handle float exponent error
         return np.exp(self.predict_log_proba(X))
 
     # Scores
 
     def accuracy_score(self, X, y):
+        '''
+
+        Return acuracy score
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix}, shape = [n_samples, n_features]
+            Training vectors, where n_samples is the number of samples and
+            n_features is the number of features.
+        y : array-like, shape = [n_samples]
+            Target values.
+
+        Returns
+        -------
+        accuracy_score: float
+            Accuracy on the given test set
+
+        '''
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
 

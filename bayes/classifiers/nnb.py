@@ -3,14 +3,13 @@
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-
-from base import BaseNB
-from bayes.utils import get_complement_matrix
+from bayes.base import BaseNB
+from bayes.utils import get_complement_matrix, inherit_docstring
 
 
 # Author: Krzysztof Joachimiak
 
-
+@inherit_docstring
 class NegationNB(BaseNB):
 
     '''

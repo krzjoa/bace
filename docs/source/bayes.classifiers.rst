@@ -1,70 +1,48 @@
-bayes.classifiers package
-=========================
+Classifiers
+===========
 
-Submodules
-----------
-
-bayes.classifiers.base module
------------------------------
-
-.. automodule:: bayes.classifiers.base
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-bayes.classifiers.benchmark module
-----------------------------------
-
-.. automodule:: bayes.classifiers.benchmark
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-bayes.classifiers.cnb module
-----------------------------
+Complement Naive Bayes
+----------------------
 
 .. automodule:: bayes.classifiers.cnb
     :members:
     :undoc-members:
+    :inherited-members:
     :show-inheritance:
 
-bayes.classifiers.lwnb module
------------------------------
+Locally Weighted Naive Bayes
+----------------------------
 
 .. automodule:: bayes.classifiers.lwnb
     :members:
     :undoc-members:
+    :inherited-members:
     :show-inheritance:
 
-bayes.classifiers.nnb module
-----------------------------
+Negation Naive Bayes
+--------------------
 
 .. automodule:: bayes.classifiers.nnb
     :members:
     :undoc-members:
+    :inherited-members:
     :show-inheritance:
 
-bayes.classifiers.snb module
-----------------------------
+Selective Naive Bayes
+---------------------
 
 .. automodule:: bayes.classifiers.snb
     :members:
     :undoc-members:
+    :inherited-members:
     :show-inheritance:
 
-bayes.classifiers.unb module
-----------------------------
+Universal-set Naive Bayes
+-------------------------
 
 .. automodule:: bayes.classifiers.unb
     :members:
     :undoc-members:
+    :inherited-members:
     :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: bayes.classifiers
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -2,12 +2,23 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from collections import defaultdict
+from scipy.sparse import csr_matrix
 
 def get_complement_matrix(size):
     ones = np.ones((size,))
     return np.logical_not(np.diag(ones))
 
+
+def safe_mult(input_array, internal_array):
+    if isinstance(input_array, csr_matrix):
+        input_array = input_array.toarray()
+    return input_array * internal_array
+
+
+def safe_matmult(input_array, internal_array):
+    if isinstance(input_array, csr_matrix):
+        input_array = input_array.toarray()
+    return input_array.dot(internal_array.T)
 
 # def binarize_labels(y_input, classes_vector=None, classes_counts=None):
 #
@@ -35,11 +46,9 @@ def get_complement_matrix(size):
 #
 
 
-
-
-
-def get_rest(key, dictionary):
-    return [dictionary[k] for k in dictionary if k != key]
+#
+# def get_rest(key, dictionary):
+#     return [dictionary[k] for k in dictionary if k != key]
 
 
 

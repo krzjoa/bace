@@ -56,32 +56,967 @@
             
   <div class="section" id="bayes-classifiers-package">
 <h1>bayes.classifiers package<a class="headerlink" href="#bayes-classifiers-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bayes.classifiers.cnb">
+<span id="complement-naive-bayes"></span><h2>Complement Naive Bayes<a class="headerlink" href="#module-bayes.classifiers.cnb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bayes.classifiers.cnb.ComplementNB">
+<em class="property">class </em><code class="descclassname">bayes.classifiers.cnb.</code><code class="descname">ComplementNB</code><span class="sig-paren">(</span><em>alpha=1.0</em>, <em>weight_normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/cnb.html#ComplementNB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bayes.base.BaseNB</span></code></p>
+<p>Complement Naive Bayes classifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alpha</strong> (<em>float</em>) &#8211; Smoothing parameter</li>
+<li><strong>weight_normalized</strong> (<em>bool, default False</em>) &#8211; Enable Weight-normalized Complement Naive Bayes method.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.alpha_sum_">
+<code class="descname">alpha_sum_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.alpha_sum_" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; Sum of alpha params</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.classes_">
+<code class="descname">classes_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.classes_" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>array, shape (n_classes,)</em> &#8211; Classes list</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.class_count_">
+<code class="descname">class_count_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>array, shape (n_classes,)</em> &#8211; number of training samples observed in each class.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">fetch_20newsgroups</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">CountVectorizer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">bayes.classifiers</span> <span class="k">import</span> <span class="n">ComplementNB</span>
+<span class="go">Prepare data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;alt.atheism&#39;</span><span class="p">,</span> <span class="s1">&#39;talk.religion.misc&#39;</span><span class="p">,</span><span class="s1">&#39;comp.graphics&#39;</span><span class="p">,</span> <span class="s1">&#39;sci.space&#39;</span><span class="p">]</span>
+<span class="go">Train set</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newsgroups_train</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">newsgroups_train</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="go">Test set</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newsgroups_test</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="n">categories</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_vectors</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">newsgroups_test</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span> <span class="o">=</span> <span class="n">ComplementNB</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">newsgroups_train</span><span class="p">,</span> <span class="n">train_vectors</span><span class="p">)</span><span class="o">.</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">newsgroups_test</span><span class="p">,</span> <span class="n">test_vectors</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="bayes-classifiers-base-module">
-<h2>bayes.classifiers.base module<a class="headerlink" href="#bayes-classifiers-base-module" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">References</p>
+<p>Rennie J. D. M., Shih L., Teevan J., Karger D. R.  (2003).
+Tackling the Poor Assumptions of Naive Bayes Text Classifiers</p>
+<p><a class="reference external" href="https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf">https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf</a></p>
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.accuracy_score">
+<code class="descname">accuracy_score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.accuracy_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return acuracy score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>accuracy_score</strong> &#8211; Accuracy on the given test set</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.class_log_proba_">
+<code class="descname">class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log probability of class occurrence</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.complement_class_count_">
+<code class="descname">complement_class_count_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.complement_class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class count, i.e. number of occurrences of all the samples with
+all the classes except the given class c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.cnb.ComplementNB.complement_class_log_proba_">
+<code class="descname">complement_class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.complement_class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class probability, i.e. logprob of occurrence of a sample, which
+does not belong to the given class c</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/cnb.html#ComplementNB.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit model to given training set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array-like, shape (n_samples, n_features)</em>) &#8211; Training vectors, where n_samples is the number of samples
+and n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape (n_samples,)</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Naive Bayes estimator object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><em>deep=True</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>deep</strong> (<em>boolean, optional</em>) &#8211; If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>params</strong> &#8211; Parameter names mapped to their values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">mapping of string to any</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/cnb.html#ComplementNB.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental fit on a batch of samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+<li><strong>classes</strong> (<em>array-like, shape = [n_classes], optional (default=None)</em>) &#8211; List of all the classes that can possibly appear in the y vector.
+Must be provided at the first call to partial_fit, can be omitted
+in subsequent calls.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/cnb.html#ComplementNB.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform classification on an array of test vectors X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<em>array-like, shape = [n_samples, n_features]</em>) &#8211; Unseen samples vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Predicted target values for X</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array, shape = [n_samples]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.predict_log_proba">
+<code class="descname">predict_log_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/cnb.html#ComplementNB.predict_log_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.predict_log_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return log-probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the log-probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.predict_proba">
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.safe_matmult">
+<code class="descname">safe_matmult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.safe_matmult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.safe_mult">
+<code class="descname">safe_mult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.safe_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.cnb.ComplementNB.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.cnb.ComplementNB.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="bayes-classifiers-benchmark-module">
-<h2>bayes.classifiers.benchmark module<a class="headerlink" href="#bayes-classifiers-benchmark-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bayes.classifiers.lwnb">
+<span id="locally-weighted-naive-bayes"></span><h2>Locally Weighted Naive Bayes<a class="headerlink" href="#module-bayes.classifiers.lwnb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB">
+<em class="property">class </em><code class="descclassname">bayes.classifiers.lwnb.</code><code class="descname">LocallyWeightedNB</code><span class="sig-paren">(</span><em>alpha=1.0</em>, <em>weight_normalized=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bayes.base.BaseNB</span></code></p>
+<p>Locally Weighted Naive Bayes classifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>alpha</strong> (<em>float</em>) &#8211; Smoothing parameter</li>
+<li><strong>weight_normalized</strong> (<em>bool, default False</em>) &#8211; Enable Weight-normalized Complement Naive Bayes method.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Frank E., Hall M., Pfahringer B. (2003).</p>
+<p><a class="reference external" href="http://www.cs.waikato.ac.nz/~eibe/pubs/UAI_200.pdf">http://www.cs.waikato.ac.nz/~eibe/pubs/UAI_200.pdf</a></p>
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.accuracy_score">
+<code class="descname">accuracy_score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.accuracy_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return acuracy score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>accuracy_score</strong> &#8211; Accuracy on the given test set</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.class_log_proba_">
+<code class="descname">class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log probability of class occurrence</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.complement_class_count_">
+<code class="descname">complement_class_count_</code><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.complement_class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class count, i.e. number of occurrences of all the samples with
+all the classes except the given class c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.complement_class_log_proba_">
+<code class="descname">complement_class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.complement_class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class probability, i.e. logprob of occurrence of a sample, which
+does not belong to the given class c</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.get_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.predict_log_proba">
+<code class="descname">predict_log_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.predict_log_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.predict_log_proba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.predict_proba">
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.predict_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.safe_matmult">
+<code class="descname">safe_matmult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.safe_matmult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.safe_mult">
+<code class="descname">safe_mult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.safe_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.lwnb.LocallyWeightedNB.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/lwnb.html#LocallyWeightedNB.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.lwnb.LocallyWeightedNB.set_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="bayes-classifiers-cnb-module">
-<h2>bayes.classifiers.cnb module<a class="headerlink" href="#bayes-classifiers-cnb-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bayes.classifiers.nnb">
+<span id="negation-naive-bayes"></span><h2>Negation Naive Bayes<a class="headerlink" href="#module-bayes.classifiers.nnb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bayes.classifiers.nnb.NegationNB">
+<em class="property">class </em><code class="descclassname">bayes.classifiers.nnb.</code><code class="descname">NegationNB</code><span class="sig-paren">(</span><em>alpha=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bayes.base.BaseNB</span></code></p>
+<p>Negation Naive Bayes classifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alpha</strong> (<em>float</em>) &#8211; Smoothing parameter</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Komiya K., Sato N., Fujimoto K., Kotani Y. (2011).
+Negation Naive Bayes for Categorization of Product Pages on the Web</p>
+<p><a class="reference external" href="http://www.aclweb.org/anthology/R11-1083.pdf">http://www.aclweb.org/anthology/R11-1083.pdf</a></p>
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.accuracy_score">
+<code class="descname">accuracy_score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.accuracy_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return acuracy score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>accuracy_score</strong> &#8211; Accuracy on the given test set</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.nnb.NegationNB.class_log_proba_">
+<code class="descname">class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log probability of class occurrence</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.nnb.NegationNB.complement_class_count_">
+<code class="descname">complement_class_count_</code><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.complement_class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class count, i.e. number of occurrences of all the samples with
+all the classes except the given class c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.nnb.NegationNB.complement_class_log_proba_">
+<code class="descname">complement_class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.complement_class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class probability, i.e. logprob of occurrence of a sample, which
+does not belong to the given class c</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit model to given training set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array-like, shape (n_samples, n_features)</em>) &#8211; Training vectors, where n_samples is the number of samples
+and n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape (n_samples,)</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Naive Bayes estimator object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>deep</strong> (<em>boolean, optional</em>) &#8211; If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>params</strong> &#8211; Parameter names mapped to their values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">mapping of string to any</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental fit on a batch of samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+<li><strong>classes</strong> (<em>array-like, shape = [n_classes], optional (default=None)</em>) &#8211; List of all the classes that can possibly appear in the y vector.
+Must be provided at the first call to partial_fit, can be omitted
+in subsequent calls.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform classification on an array of test vectors X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<em>array-like, shape = [n_samples, n_features]</em>) &#8211; Unseen samples vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Predicted target values for X</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array, shape = [n_samples]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.predict_log_proba">
+<code class="descname">predict_log_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.predict_log_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.predict_log_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return log-probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the log-probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.predict_proba">
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.safe_matmult">
+<code class="descname">safe_matmult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.safe_matmult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.safe_mult">
+<code class="descname">safe_mult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.safe_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.nnb.NegationNB.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/nnb.html#NegationNB.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.nnb.NegationNB.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="bayes-classifiers-lwnb-module">
-<h2>bayes.classifiers.lwnb module<a class="headerlink" href="#bayes-classifiers-lwnb-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bayes.classifiers.snb">
+<span id="selective-naive-bayes"></span><h2>Selective Naive Bayes<a class="headerlink" href="#module-bayes.classifiers.snb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bayes.classifiers.snb.SelectiveNB">
+<em class="property">class </em><code class="descclassname">bayes.classifiers.snb.</code><code class="descname">SelectiveNB</code><span class="sig-paren">(</span><em>alpha=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bayes.base.BaseNB</span></code></p>
+<p>Selective Naive Bayes classifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alpha</strong> (<em>float</em>) &#8211; Smoothing parameter</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Komiya K., Ito Y., Kotani Y. (2013).
+New Naive Bayes Methods using Data from All Classes</p>
+<p><a class="reference external" href="http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf">http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf</a></p>
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.accuracy_score">
+<code class="descname">accuracy_score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.accuracy_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return acuracy score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>accuracy_score</strong> &#8211; Accuracy on the given test set</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.snb.SelectiveNB.class_log_proba_">
+<code class="descname">class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log probability of class occurrence</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.snb.SelectiveNB.complement_class_count_">
+<code class="descname">complement_class_count_</code><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.complement_class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class count, i.e. number of occurrences of all the samples with
+all the classes except the given class c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.snb.SelectiveNB.complement_class_log_proba_">
+<code class="descname">complement_class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.complement_class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class probability, i.e. logprob of occurrence of a sample, which
+does not belong to the given class c</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.get_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.predict_log_proba">
+<code class="descname">predict_log_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.predict_log_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.predict_log_proba" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.predict_proba">
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.safe_matmult">
+<code class="descname">safe_matmult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.safe_matmult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.safe_mult">
+<code class="descname">safe_mult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.safe_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.snb.SelectiveNB.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/snb.html#SelectiveNB.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.snb.SelectiveNB.set_params" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="bayes-classifiers-nnb-module">
-<h2>bayes.classifiers.nnb module<a class="headerlink" href="#bayes-classifiers-nnb-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="bayes-classifiers-snb-module">
-<h2>bayes.classifiers.snb module<a class="headerlink" href="#bayes-classifiers-snb-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="bayes-classifiers-unb-module">
-<h2>bayes.classifiers.unb module<a class="headerlink" href="#bayes-classifiers-unb-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-bayes.classifiers.unb">
+<span id="universal-set-naive-bayes"></span><h2>Universal-set Naive Bayes<a class="headerlink" href="#module-bayes.classifiers.unb" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bayes.classifiers.unb.UniversalSetNB">
+<em class="property">class </em><code class="descclassname">bayes.classifiers.unb.</code><code class="descname">UniversalSetNB</code><span class="sig-paren">(</span><em>alpha=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bayes.base.BaseNB</span></code></p>
+<p>Universal-set Naive Bayes classifier</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>alpha</strong> (<em>float</em>) &#8211; Smoothing parameter</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Komiya K., Ito Y., Kotani Y. (2013).
+New Naive Bayes Methods using Data from All Classes</p>
+<p><a class="reference external" href="http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf">http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf</a></p>
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.accuracy_score">
+<code class="descname">accuracy_score</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.accuracy_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return acuracy score</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>accuracy_score</strong> &#8211; Accuracy on the given test set</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.unb.UniversalSetNB.class_log_proba_">
+<code class="descname">class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log probability of class occurrence</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.unb.UniversalSetNB.complement_class_count_">
+<code class="descname">complement_class_count_</code><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.complement_class_count_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class count, i.e. number of occurrences of all the samples with
+all the classes except the given class c</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="bayes.classifiers.unb.UniversalSetNB.complement_class_log_proba_">
+<code class="descname">complement_class_log_proba_</code><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.complement_class_log_proba_" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complement class probability, i.e. logprob of occurrence of a sample, which
+does not belong to the given class c</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit model to given training set</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array-like, shape (n_samples, n_features)</em>) &#8211; Training vectors, where n_samples is the number of samples
+and n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape (n_samples,)</em>) &#8211; Target values.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Naive Bayes estimator object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.get_params">
+<code class="descname">get_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.get_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.get_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get parameters for this estimator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>deep</strong> (<em>boolean, optional</em>) &#8211; If True, will return the parameters for this estimator and
+contained subobjects that are estimators.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>params</strong> &#8211; Parameter names mapped to their values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">mapping of string to any</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.partial_fit">
+<code class="descname">partial_fit</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>classes=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.partial_fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.partial_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incremental fit on a batch of samples.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>{array-like, sparse matrix}, shape = [n_samples, n_features]</em>) &#8211; Training vectors, where n_samples is the number of samples and
+n_features is the number of features.</li>
+<li><strong>y</strong> (<em>array-like, shape = [n_samples]</em>) &#8211; Target values.</li>
+<li><strong>classes</strong> (<em>array-like, shape = [n_classes], optional (default=None)</em>) &#8211; List of all the classes that can possibly appear in the y vector.
+Must be provided at the first call to partial_fit, can be omitted
+in subsequent calls.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> &#8211; Returns self.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform classification on an array of test vectors X.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<em>array-like, shape = [n_samples, n_features]</em>) &#8211; Unseen samples vector</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Predicted target values for X</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array, shape = [n_samples]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.predict_log_proba">
+<code class="descname">predict_log_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.predict_log_proba"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.predict_log_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return log-probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the log-probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.predict_proba">
+<code class="descname">predict_proba</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.predict_proba" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return probability estimates for the test vector X.
+:param X:
+:type X: array-like, shape = [n_samples, n_features]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>C</strong> &#8211; Returns the probability of the samples for each class in
+the model. The columns correspond to the classes in sorted
+order, as they appear in the attribute <cite>classes_</cite>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">array-like, shape = [n_samples, n_classes]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.safe_matmult">
+<code class="descname">safe_matmult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.safe_matmult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.safe_mult">
+<code class="descname">safe_mult</code><span class="sig-paren">(</span><em>input_array</em>, <em>internal_array</em><span class="sig-paren">)</span><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.safe_mult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="bayes.classifiers.unb.UniversalSetNB.set_params">
+<code class="descname">set_params</code><span class="sig-paren">(</span><em>**params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bayes/classifiers/unb.html#UniversalSetNB.set_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bayes.classifiers.unb.UniversalSetNB.set_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parameters of this estimator.</p>
+<p>The method works on simple estimators as well as on nested objects
+(such as pipelines). The latter have parameters of the form
+<code class="docutils literal"><span class="pre">&lt;component&gt;__&lt;parameter&gt;</span></code> so that it&#8217;s possible to update each
+component of a nested object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -94,15 +1029,11 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">bayes.classifiers package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-base-module">bayes.classifiers.base module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-benchmark-module">bayes.classifiers.benchmark module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-cnb-module">bayes.classifiers.cnb module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-lwnb-module">bayes.classifiers.lwnb module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-nnb-module">bayes.classifiers.nnb module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-snb-module">bayes.classifiers.snb module</a></li>
-<li><a class="reference internal" href="#bayes-classifiers-unb-module">bayes.classifiers.unb module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-bayes.classifiers.cnb">Complement Naive Bayes</a></li>
+<li><a class="reference internal" href="#module-bayes.classifiers.lwnb">Locally Weighted Naive Bayes</a></li>
+<li><a class="reference internal" href="#module-bayes.classifiers.nnb">Negation Naive Bayes</a></li>
+<li><a class="reference internal" href="#module-bayes.classifiers.snb">Selective Naive Bayes</a></li>
+<li><a class="reference internal" href="#module-bayes.classifiers.unb">Universal-set Naive Bayes</a></li>
 </ul>
 </li>
 </ul>
