@@ -3,12 +3,9 @@
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
 
-.. |Python27| image:: https://badge.fury.io/py/bayes-variants.svg
-.. _Python27: https://badge.fury.io/py/bayes-variants
+.. |Pypi| image:: https://badge.fury.io/py/bayes-variants.svg
+.. _Pypi: https://badge.fury.io/py/bayes-variants
 
-
-.. |Pypi| image:: https://badge.fury.io/py/imbalanced-learn.svg
-.. _Pypi: https://pypi.python.org/pypi?name=bayes-variants&version=0.1.0&:action=display
 
 Bayes
 =====
