@@ -1,2 +1,5 @@
 *.pyc
 .idea/
+dist
+bayes_variants.egg-info
+

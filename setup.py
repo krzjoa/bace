@@ -29,6 +29,8 @@ Documentation
 The full documentation is at http://bayes.rtfd.org."""
 #history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
+VERSION = '0.1.1'
+
 setup(
     name='bayes-variants',
     version=VERSION,

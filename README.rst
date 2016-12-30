@@ -1,10 +1,16 @@
-|Documentation|_ |Pypi|_
+|Python27|_ |Documentation|_ |Pypi|_ |Landscape|_
 
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
 
 .. |Pypi| image:: https://badge.fury.io/py/bayes-variants.svg
 .. _Pypi: https://badge.fury.io/py/bayes-variants
+
+.. |Landscape| image:: https://landscape.io/github/krzjoa/Bayes/master/landscape.svg?style=flat
+.. _Landscape: https://landscape.io/github/krzjoa/Bayes/master
+
+.. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
+.. _Python27: https://badge.fury.io/py/bayes-variants
 
 
 Bayes
