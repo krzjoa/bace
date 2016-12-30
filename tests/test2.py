@@ -3,11 +3,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 
-from bayes.classifiers import NegationNB, UniversalSetNB
+from bayes.classifiers import *
 
 if __name__ == '__main__':
 
-    cnb = UniversalSetNB(alpha=1.)
+    cnb = SelectiveNB(alpha=1.)
     mnb = MultinomialNB()
     vectorizer = CountVectorizer()
 

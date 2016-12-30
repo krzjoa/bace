@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Author: Krzysztof Joachimiak
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
@@ -7,7 +7,6 @@ from bayes.base import BaseNB
 from bayes.utils import get_complement_matrix, inherit_docstring
 
 
-# Author: Krzysztof Joachimiak
 
 @inherit_docstring
 class NegationNB(BaseNB):
@@ -39,10 +38,6 @@ class NegationNB(BaseNB):
         # Computed attributes
         self.classes_ = None
         self.class_counts_ = None
-        # self.complement_class_log_proba_ = None
-        self.class_log_proba_ = None
-        self.complement_features_ = None
-        # self.complement_class_counts_ = None
 
 
     def fit(self, X, y):
@@ -61,18 +56,10 @@ class NegationNB(BaseNB):
         self._check_is_fitted()
         denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
-
         features_doc_logprob = self.safe_matmult(X, features_weights.T)
-        return (features_doc_logprob * -1) + self.class_log_proba_
+        return (features_doc_logprob * - np.exp(1)) + self.class_log_proba_
 
-    def get_params(self):
-        return self.__dict__
-
-    def set_params(self, **params):
-        self.__dict__.update(params)
-        return self
-
-        # Fitting model
+    # Fitting model
 
     def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
 
@@ -88,41 +75,24 @@ class NegationNB(BaseNB):
 
         lb = LabelBinarizer()
         y_one_hot = lb.fit_transform(y)
-        self.class_counts_ = np.sum(y_one_hot, axis=0)
+        self.class_count_ = np.sum(y_one_hot, axis=0)
 
         if not self.classes_:
             self.classes_ = lb.classes_
 
         self._class_log_prob()
-        self._features_in_class(X, y_one_hot)
+        self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
 
     def _class_log_prob(self):
         '''
         Compute complement probability of class occurence
         '''
-        all_samples_count = np.float64(np.sum(self.class_counts_))
-        self.complement_class_counts_ = self.class_counts_.dot(get_complement_matrix(len(self.class_counts_)))
-        self.complement_class_proba_ = (self.complement_class_counts_  / all_samples_count) ** -1
-        self.class_log_proba_ = np.log(self.complement_class_counts_)
+        all_samples_count = np.float64(np.sum(self.class_count_))
+        self.complement_class_counts_ = self.class_count_.dot(get_complement_matrix(len(self.class_count_)))
+        self.complement_class_proba_ = (self.complement_class_count_  / all_samples_count) ** -1
+        #self.class_log_proba_ = np.log(self.complement_class_counts_)
 
-
-    def _features_in_class(self, X, y_one_hot):
-        '''
-
-        Compute complement features counts
-
-        Parameters
-        ----------
-        X: numpy array (n_samples, n_features)
-            Matrix of input samples
-        y_one_hot: numpy array (n_samples, n_classes)
-            Binary matrix encoding input
-        '''
-        if not self.is_fitted:
-            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
-        else:
-            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
 
     def _reset(self):
         '''
@@ -132,7 +102,5 @@ class NegationNB(BaseNB):
         '''
         self.classes_ = None
         self.class_counts_ = None
-        self.class_log_proba_ = None
         self.complement_features_ = None
         self.complement_class_counts_ = None
-        self.class_log_proba_ = None

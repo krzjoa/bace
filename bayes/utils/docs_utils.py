@@ -6,7 +6,7 @@ import types
 def inherit_docstring(cls):
     for name, func in vars(cls).items():
         if isinstance(func, types.FunctionType) and not func.__doc__:
-            print func, 'needs doc'
+            #print func, 'needs doc'
             for parent in cls.__bases__:
                 parfunc = getattr(parent, name, None)
                 if parfunc and getattr(parfunc, '__doc__', None):

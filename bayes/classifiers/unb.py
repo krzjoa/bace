@@ -39,8 +39,6 @@ class UniversalSetNB(BaseNB):
         # Computed attributes
         self.classes_ = None
         self.class_counts_ = None
-        #self.complement_class_log_proba_ = None
-        self.class_log_proba_ = None
         self.complement_features_ = None
         self.features_ = None
 
@@ -60,13 +58,6 @@ class UniversalSetNB(BaseNB):
         self._check_is_fitted()
         return self._log_proba(X) - self._complement_log_proba(X)
 
-    def get_params(self):
-        return self.__dict__
-
-    def set_params(self, **params):
-        self.__dict__.update(params)
-        return self
-
     # Making predictions
     def _complement_log_proba(self, X):
         denominator = np.sum(self.complement_features_, axis=0) + self.alpha_sum_
@@ -78,7 +69,7 @@ class UniversalSetNB(BaseNB):
         denominator = np.sum(self.features_, axis=0) + self.alpha_sum_
         features_weights = np.log((self.features_ + self.alpha) / denominator)
         features_doc_logprob = self.safe_matmult(X, features_weights.T)
-        return (features_doc_logprob) + self.complement_class_log_proba_
+        return (features_doc_logprob) + self.class_log_proba_
 
     # Fitting model
 
@@ -96,7 +87,7 @@ class UniversalSetNB(BaseNB):
 
         lb = LabelBinarizer()
         y_one_hot = lb.fit_transform(y)
-        self.class_counts_ = np.sum(y_one_hot, axis=0)
+        self.class_count_ = np.sum(y_one_hot, axis=0)
 
         if not self.classes_:
             self.classes_ = lb.classes_

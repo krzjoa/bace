@@ -68,7 +68,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
 
     # Fitting model
 
-    @abstractmethod
     def fit(self, X, y):
         '''
 
@@ -86,6 +85,9 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self : Naive Bayes estimator object
             Returns self.
         '''
+        self._reset()
+        self._partial_fit(X, y)
+        return self
 
     @abstractmethod
     def partial_fit(self, X, y, classes=None):
@@ -109,6 +111,10 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self : object
              Returns self.
         """
+
+    @abstractmethod
+    def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
+        ''''''
 
     @abstractmethod
     def predict(self, X):
@@ -138,6 +144,7 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         y_one_hot: numpy array (n_samples, n_classes)
             Binary matrix encoding input
         '''
+        # FIXME: complement_features nomenclature is incoherent
         if not self.is_fitted:
             self.complement_features = X.T.dot(np.logical_not(y_one_hot))
         else:

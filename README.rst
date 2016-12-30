@@ -19,18 +19,21 @@ Algorithms
 * Complement Naive Bayes
 * Negation Naive Bayes
 * Universal-set Naive Bayes
+* Selective Naive Bayes
 
 Installation
 ------------
 
 You can install this module directly from GitHub repo with command:
 
-.. code-block:: bash
-    pip install https://github.com/krzjoa/Bayes.git
+::
 
-or use **pip**:
+    pip install git+https://github.com/krzjoa/Bayes.git
 
-.. code-block:: bash
+or using **pip**:
+
+::
+
     pip install bayes-variants
 
 
@@ -74,7 +77,6 @@ TODO list
 ---------
 * Weighted Complement Naive Bayes
 * Locally Weighted Naive Bayes
-* Selective Naive Bayes Classifier
-* Add unit tests
-* Add project documentation
+
+
 

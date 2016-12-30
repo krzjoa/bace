@@ -1,12 +1,12 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# Author: Krzysztof Joachimiak 2016
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from bayes.base import BaseNB
-from bayes.utils import inherit_docstring, safe_matmult, safe_mult
+from bayes.utils import inherit_docstring, safe_matmult
 
-# Author: Krzysztof Joachimiak
+
 
 @inherit_docstring
 class ComplementNB(BaseNB):
@@ -92,7 +92,8 @@ class ComplementNB(BaseNB):
             features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
 
         features_doc_logprob = safe_matmult(X, features_weights.T)
-        return (features_doc_logprob * -1) + self.class_log_proba_
+        #TODO: check logspace
+        return (features_doc_logprob * - np.exp(-1)) + self.class_log_proba_
 
 
     # Fitting model
@@ -111,12 +112,12 @@ class ComplementNB(BaseNB):
 
         lb = LabelBinarizer()
         y_one_hot = lb.fit_transform(y)
-        self.class_counts_ = np.sum(y_one_hot, axis=0)
+        self.class_count_ = np.sum(y_one_hot, axis=0)
 
         if not self.classes_:
             self.classes_ = lb.classes_
 
-        self._class_log_prob()
+        #self._class_log_prob()
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
 

@@ -4,6 +4,7 @@
 import numpy as np
 from scipy.sparse import csr_matrix
 
+
 def get_complement_matrix(size):
     ones = np.ones((size,))
     return np.logical_not(np.diag(ones))
@@ -19,6 +20,8 @@ def safe_matmult(input_array, internal_array):
     if isinstance(input_array, csr_matrix):
         input_array = input_array.toarray()
     return input_array.dot(internal_array.T)
+
+
 
 # def binarize_labels(y_input, classes_vector=None, classes_counts=None):
 #
