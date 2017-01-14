@@ -1,0 +1,16 @@
+language: python
+
+python:
+  - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+  - pip install --upgrade pip setuptools wheel
+  - pip install --only-binary=numpy,scipy numpy scipy
+  - pip install -r requirements.txt
+  - pip install .
+
+# command to run tests
+script: nosetests

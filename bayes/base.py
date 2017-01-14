@@ -173,6 +173,7 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
     def predict_log_proba(self, X):
         """
         Return log-probability estimates for the test vector X.
+
         Parameters
         ----------
         X : array-like, shape = [n_samples, n_features]
@@ -257,10 +258,10 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
     def _not_implemented_yet(self, message):
         warnings.warn(NotImplementedYet(message))
 
-    def safe_mult(self, input_array, internal_array):
-        if isinstance(input_array, csr_matrix):
-            input_array = input_array.toarray()
-        return input_array * internal_array
+    # def safe_mult(self, input_array, internal_array):
+    #     if isinstance(input_array, csr_matrix):
+    #         input_array = input_array.toarray()
+    #     return input_array * internal_array
 
     def safe_matmult(self, input_array, internal_array):
         if isinstance(input_array, csr_matrix):

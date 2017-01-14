@@ -7,7 +7,7 @@ from bayes.classifiers import *
 
 if __name__ == '__main__':
 
-    cnb = SelectiveNB(alpha=1.)
+    cnb = ComplementNB(alpha=1., weight_normalized=True)
     mnb = MultinomialNB()
     vectorizer = CountVectorizer()
 

@@ -90,9 +90,11 @@ class ComplementNB(BaseNB):
 
         if self.weight_normalized:
             features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
+            # from scipy.misc import logsumexp
+            # features_weights = features_weights - logsumexp(features_weights, axis=0)
 
         features_doc_logprob = safe_matmult(X, features_weights.T)
-        #TODO: check logspace
+
         return (features_doc_logprob * - np.exp(-1)) + self.class_log_proba_
 
 

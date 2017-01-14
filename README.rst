@@ -1,4 +1,4 @@
-|Python27|_ |Documentation|_ |Pypi|_ |Landscape|_
+|Python27|_ |Documentation|_ |Pypi|_ |Landscape|_ |Travis|_
 
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
@@ -12,6 +12,8 @@
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
 .. _Python27: https://badge.fury.io/py/bayes-variants
 
+.. |Travis| image:: https://travis-ci.org/krzjoa/Bayes.svg?branch=master
+.. _Travis: https://travis-ci.org/krzjoa/Bayes
 
 Bayes
 =====
