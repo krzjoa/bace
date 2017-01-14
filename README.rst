@@ -38,7 +38,7 @@ You can install this module directly from GitHub repo with command:
 
     pip install git+https://github.com/krzjoa/Bayes.git
 
-or as a PyPi package
+or as a PyPI package
 
 ::
 
