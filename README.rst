@@ -38,7 +38,7 @@ You can install this module directly from GitHub repo with command:
 
     pip install git+https://github.com/krzjoa/Bayes.git
 
-or using **pip**:
+or using as a PyPi package
 
 ::
 
@@ -48,7 +48,7 @@ or using **pip**:
 Usage
 -----
 
-Bayes classifiers API mimics [Scikit-Learn](http://scikit-learn.org/stable/modules/classes.html) API, so usage is very simple.
+Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modules/classes.html>`_ API, so usage is very simple.
 
 
 .. code-block:: python
