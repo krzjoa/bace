@@ -10,8 +10,9 @@ def inherit_docstring(cls):
             for parent in cls.__bases__:
                 parfunc = getattr(parent, name, None)
                 if parfunc and getattr(parfunc, '__doc__', None):
-                    if parfunc.__name__.starstwith("__"):
-                        continue
+                    # if parfunc.__name__.starstwith("__"):
+                    #     continue
+                    print parfunc.__name__
                     func.__doc__ = parfunc.__doc__
                     break
     return cls
