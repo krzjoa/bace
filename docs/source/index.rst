@@ -6,7 +6,7 @@
 Welcome to Bayes's documentation!
 =================================
 
-.. include:: ../README.rst
+.. include:: ../../README.rst
 
 This module contains several variants of well-known Naive Bayes Classifier.
 
