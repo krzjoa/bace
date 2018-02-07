@@ -1,1 +1,1 @@
-from benchmark import BenchmarkAll
+from .benchmark import BenchmarkAll
