@@ -1,17 +1,15 @@
 Classifiers
 ===========
 
-.. autosummary:: bayes.classifiers
+.. currentmodule:: bayes.classifiers
+
+.. autosummary::
     :toctree:
 
     ComplementNB
     NegationNB
     UniversalSetNB
     SelectiveNB
-
-
-Complement Naive Bayes
-----------------------
 
 .. automodule:: bayes.classifiers
     :members:
