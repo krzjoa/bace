@@ -1,6 +1,9 @@
 Classifiers
 ===========
 
+.. autosummary:: bayes.classifiers
+
+
 Complement Naive Bayes
 ----------------------
 

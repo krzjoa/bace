@@ -2,8 +2,8 @@
 Bayes API
 =========
 
-.. autosummary::
-    :toctree::
+
+.. toctree::
        :maxdepth: 2
 
-   bayes
+   bayes.classifiers

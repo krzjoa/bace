@@ -7,7 +7,6 @@ Subpackages
 .. toctree::
 
     bayes.classifiers
-    bayes.utils
 
 Submodules
 ----------
