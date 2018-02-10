@@ -35,7 +35,7 @@ import bayes
 # ones.
 #extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.napoleon', 'sphinx.ext.viewcode', 'sphinx.ext.autosummary']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.viewcode',
-              'sphinx.ext.autosummary', 'sphinx.ext.mathbase']
+              'sphinx.ext.autosummary', 'sphinx.ext.mathjax']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
