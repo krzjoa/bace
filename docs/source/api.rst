@@ -2,8 +2,18 @@
 Bayes API
 =========
 
+.. currentmodule:: bayes.classifiers
 
-.. toctree::
-       :maxdepth: 2
+.. autosummary::
+    :toctree:
 
-   bayes.classifiers
+    ComplementNB
+    NegationNB
+    UniversalSetNB
+    SelectiveNB
+
+.. automodule:: bayes.classifiers
+    :members:
+    :undoc-members:
+    :inherited-members:
+    :show-inheritance:
