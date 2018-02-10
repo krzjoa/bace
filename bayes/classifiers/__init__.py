@@ -5,10 +5,9 @@ from snb import SelectiveNB
 #from lwnb import LocallyWeightedNB
 
 
-# __all__ = [
-#     'ComplementNB',
-#     'NegationNB',
-#     'UniversalSetNB',
-#     'SelectiveNB',
-#     'LocallyWeightedNB'
-# ]
+__all__ = [
+    'ComplementNB',
+    'NegationNB',
+    'UniversalSetNB',
+    'SelectiveNB',
+]
