@@ -2,6 +2,12 @@ Classifiers
 ===========
 
 .. autosummary:: bayes.classifiers
+    :toctree:
+
+    ComplementNB
+    NegationNB
+    UniversalSetNB
+    SelectiveNB
 
 
 Complement Naive Bayes
