@@ -1,10 +1,11 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.base import BaseEstimator
-from sklearn.metrics import f1_score
+from sklearn.metrics import accuracy_score
 from bayes.classifiers import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
 
 
-class Benchmark(object):
+
+class Benchmark(BaseEstimator):
     '''
 
     scikit-learn like classifiers benchmark
@@ -13,11 +14,13 @@ class Benchmark(object):
     ----------
     classifiers: list of sklearn.base.BaseEstimator
         List of sklearn classifiers
-
+    verbose: bool
+        Print training details
     '''
 
-    def __init__(self, classifiers):
+    def __init__(self, classifiers, verbose=False):
         self.classifiers = classifiers
+        self.verbose = verbose
 
 
     def fit(self, X, y):
@@ -39,21 +42,49 @@ class Benchmark(object):
 
         for clf in self.classifiers:
             clf.fit(X, y)
+
+            if self.verbose:
+                print "{} fitted".format(clf.__class__.__name__)
+
         return self
 
     def predict(self, X):
         return [clf.predict(X) for clf in self.classifiers]
 
-    def compare(self, X, y, metrics={'F1': f1_score}):
+    def compare(self, X, y, metrics={'Accuracy': accuracy_score}):
+        '''
+
+        Compare predictions of multiple classifiers
+
+        Parameters
+        ----------
+        X: numpy.ndarray
+            Features
+        y: numpy.ndarray
+            Targets
+        metrics: dict of callable
+            List of metric functions
+
+        '''
 
         for clf in self.classifiers:
-            pass
+
+            print clf.__class__.__name__
+            predictions = clf.predict(X)
+
+            for metric_name, metric_fun in metrics.items():
+                print "{}: {}".format(
+                    metric_name,
+                    metric_fun(y, predictions)
+                )
+
 
 
 
 class BenchmarkNaiveBayes(Benchmark):
 
     CLASSIFIERS = [
+        MultinomialNB(),
         ComplementNB(),
         NegationNB(),
         SelectiveNB(),

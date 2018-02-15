@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_sc
 import numpy as np
 from sklearn.base import BaseEstimator
 from sklearn.externals import six
-
+from bayes.utils import get_complement_matrix
 
 # Warnings
 
@@ -42,7 +42,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         all the classes except the given class c
 
         '''
-        from bayes.utils import get_complement_matrix
         size = len(self.class_count_)
         return self.class_count_.dot(get_complement_matrix(size))
 
@@ -229,23 +228,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
 
-    # def f1_score(self, X, y):
-    #     self._check_is_fitted()
-    #     return f1_score(y, self.predict(X))
-    #
-    # def precision_score(self, X, y):
-    #     self._check_is_fitted()
-    #     return precision_score(y, self.predict(X))
-    #
-    # def recall_score(self, X, y):
-    #     self._check_is_fitted()
-    #     return recall_score(y, self.predict(X))
-    #
-    # def roc_auc_score(self, X, y):
-    #     self._check_is_fitted()
-    #     return roc_auc_score(y, self.predict(X))
-
-    # Checking params & states
 
     def _check_is_fitted(self):
         if not self.is_fitted:
@@ -257,11 +239,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
 
     def _not_implemented_yet(self, message):
         warnings.warn(NotImplementedYet(message))
-
-    # def safe_mult(self, input_array, internal_array):
-    #     if isinstance(input_array, csr_matrix):
-    #         input_array = input_array.toarray()
-    #     return input_array * internal_array
 
     def safe_matmult(self, input_array, internal_array):
         if isinstance(input_array, csr_matrix):
