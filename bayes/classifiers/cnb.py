@@ -122,10 +122,10 @@ class ComplementNB(BaseNB):
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
 
-        print "CNB class count", self.class_count_
-        print "CNB complement class count", self.complement_class_count_
+        #print "CNB class count", self.class_count_
+        #print "CNB complement class count", self.complement_class_count_
         #print "CNB features", self.features_
-        print "CNB complement features", self.complement_features
+        #print "CNB complement features", self.complement_features
 
     def _reset(self):
         '''
