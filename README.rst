@@ -1,4 +1,4 @@
-|Python27|_ |Documentation|_ |Pypi|_ |Landscape|_ |Travis|_
+|Python37|_ |Documentation|_ |Pypi|_  |Travis|_
 
 .. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
 .. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
@@ -6,8 +6,8 @@
 .. |Pypi| image:: https://badge.fury.io/py/bayes-variants.svg
 .. _Pypi: https://badge.fury.io/py/bayes-variants
 
-.. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
-.. _Python27: https://badge.fury.io/py/bayes-variants
+.. |Python37| image:: https://img.shields.io/badge/python-3.7-blue.svg
+.. _Python37: https://badge.fury.io/py/bayes-variants
 
 .. |Travis| image:: https://travis-ci.org/krzjoa/Bayes.svg?branch=master
 .. _Travis: https://travis-ci.org/krzjoa/Bayes
@@ -50,7 +50,7 @@ Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modul
 
 .. code-block:: python
 
-    from bayes.classifiers import ComplementNB
+    from bace import ComplementNB
     from sklearn.datasets import fetch_20newsgroups
     from sklearn.feature_extraction.text import CountVectorizer
     
