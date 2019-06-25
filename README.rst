@@ -6,19 +6,16 @@
 .. |Pypi| image:: https://badge.fury.io/py/bayes-variants.svg
 .. _Pypi: https://badge.fury.io/py/bayes-variants
 
-.. |Landscape| image:: https://landscape.io/github/krzjoa/Bayes/master/landscape.svg?style=flat
-.. _Landscape: https://landscape.io/github/krzjoa/Bayes/master
-
 .. |Python27| image:: https://img.shields.io/badge/python-2.7-blue.svg
 .. _Python27: https://badge.fury.io/py/bayes-variants
 
 .. |Travis| image:: https://travis-ci.org/krzjoa/Bayes.svg?branch=master
 .. _Travis: https://travis-ci.org/krzjoa/Bayes
 
-Bayes
+bace
 =====
 
-Python implementations of Naive Bayes algorithm variations with sklearn-like API.
+A deck of Naive Bayes algorithms with sklearn-like API.
 
 
 Algorithms
