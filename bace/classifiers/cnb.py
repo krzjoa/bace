@@ -3,8 +3,8 @@
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-from bayes.base import BaseNB
-from bayes.utils import inherit_docstring, safe_matmult
+from bace.base import BaseNB
+from bace.utils import inherit_docstring, safe_matmult
 
 
 @inherit_docstring
@@ -33,7 +33,7 @@ class ComplementNB(BaseNB):
     --------
     >>> from sklearn.datasets import fetch_20newsgroups
     >>> from sklearn.feature_extraction.text import CountVectorizer
-    >>> from bayes.classifiers import ComplementNB
+    >>> from bace import ComplementNB
     Prepare data
     >>> vectorizer = CountVectorizer()
     >>> categories = ['alt.atheism', 'talk.religion.misc','comp.graphics', 'sci.space']

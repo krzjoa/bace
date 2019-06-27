@@ -1,7 +1,7 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.base import BaseEstimator
 from sklearn.metrics import accuracy_score
-from bayes.classifiers import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
+from bace import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
 
 
 
@@ -44,7 +44,7 @@ class Benchmark(BaseEstimator):
             clf.fit(X, y)
 
             if self.verbose:
-                print "{} fitted".format(clf.__class__.__name__)
+                print("{} fitted".format(clf.__class__.__name__))
 
         return self
 
@@ -69,14 +69,14 @@ class Benchmark(BaseEstimator):
 
         for clf in self.classifiers:
 
-            print clf.__class__.__name__
+            print(clf.__class__.__name__)
             predictions = clf.predict(X)
 
             for metric_name, metric_fun in metrics.items():
-                print "{}: {}".format(
+                print("{}: {}".format(
                     metric_name,
                     metric_fun(y, predictions)
-                )
+                ))
 
 
 

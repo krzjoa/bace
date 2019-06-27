@@ -2,12 +2,11 @@ from sklearn.exceptions import NotFittedError
 from abc import ABCMeta, abstractmethod
 from scipy.sparse import csr_matrix
 import warnings
-from sklearn.preprocessing import LabelBinarizer
-from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score, roc_auc_score
+from sklearn.metrics import accuracy_score
 import numpy as np
 from sklearn.base import BaseEstimator
-from sklearn.externals import six
-from bayes.utils import get_complement_matrix
+import six
+from bace.utils import get_complement_matrix
 
 # Warnings
 

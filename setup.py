@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 
-import os
-import sys
-
-try:
-    from setuptools import setup, find_packages
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup, find_packages
 
 
-if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
-    sys.exit()
+#if sys.argv[-1] == 'publish':
+#    os.system('python setup.py sdist upload')
+#    sys.exit()
 
-with open('bayes/__init__.py') as fid:
+with open('bace/__init__.py') as fid:
     for line in fid:
         if line.startswith('__version__'):
             VERSION = line.strip().split()[-1][1:-1]
@@ -26,21 +20,19 @@ readme = open('README.rst').read()
 doclink = """
 Documentation
 -------------
-The full documentation is at http://bayes.rtfd.org."""
-#history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+The full documentation is at http://bace.rtfd.org."""
 
-VERSION = '0.1.2'
+VERSION = '1.0.0'
 
 setup(
-    name='bayes-variants',
+    name='bace',
     version=VERSION,
-    description='Bayes',
-    long_description=readme + '\n\n' + doclink + '\n\n',  #+ history,
+    description='bace',
+    long_description=readme + '\n\n' + doclink + '\n\n',
     author='Krzysztof Joachimiak',
-    # author_email='',
-    url='https://github.com/krzjoa/Bayes',
+    url='https://github.com/krzjoa/bace',
     packages=find_packages(where='.', exclude=('tests')),
-    package_dir={'bayes': 'bayes'},
+    package_dir={'bace': 'bace'},
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,
     license='MIT',

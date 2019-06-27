@@ -3,8 +3,8 @@
 
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
-from bayes.base import BaseNB
-from bayes.utils import get_complement_matrix, inherit_docstring
+from bace.base import BaseNB
+from bace.utils import get_complement_matrix, inherit_docstring
 
 
 
