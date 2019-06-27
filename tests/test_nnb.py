@@ -1,7 +1,6 @@
 import unittest
-from sklearn.datasets import fetch_20newsgroups
-from bayes.classifiers import NegationNB
-from data_feed import get_data
+from bace import NegationNB
+from tests.data_feed import get_data
 
 class TestCNB(unittest.TestCase):
 

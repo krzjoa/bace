@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 
-from bayes.classifiers import *
+from bace import *
 
 if __name__ == '__main__':
 
@@ -28,18 +28,18 @@ if __name__ == '__main__':
     # Comparision
 
     # Data
-    print train_vectors.shape
+    print(train_vectors.shape)
     #print newsgroups_train.target
 
 
     # Classical MNB
-    print "Classical MNB"
+    print("Classical MNB")
     mnb.fit(train_vectors, newsgroups_train.target)
     predictions = mnb.predict(test_vectors)
-    print accuracy_score(newsgroups_test.target, predictions)
+    print(accuracy_score(newsgroups_test.target, predictions))
     # print mnb.predict_proba(test_vectors)
 
-    print "Complement NB"
+    print("Complement NB")
     cnb.fit(train_vectors, newsgroups_train.target)#
     # print "Params", cnb.classes_, cnb.class_counts_, cnb.class_occurences_
     # print cnb.complement_features[:, 2]
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     #print cnb.predict_proba(test_vectors)
 
-    print cnb.accuracy_score(test_vectors, newsgroups_test.target)
+    print(cnb.accuracy_score(test_vectors, newsgroups_test.target))
 
     # import pdb
     # pdb.set_trace()

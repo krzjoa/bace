@@ -1,7 +1,7 @@
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.base import BaseEstimator
 from sklearn.metrics import accuracy_score
-from bayes.classifiers import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
+from bace import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
 
 
 

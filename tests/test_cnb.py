@@ -2,8 +2,8 @@ import unittest
 
 from sklearn.datasets import fetch_20newsgroups
 
-from bayes.classifiers import ComplementNB
-from data_feed import get_data
+from bace import ComplementNB
+from tests.data_feed import get_data
 
 
 class TestCNB(unittest.TestCase):

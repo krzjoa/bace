@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from bace.base import BaseNB
 from bace.utils import safe_matmult, safe_mult, inherit_docstring
-from scipy.misc import logsumexp
+from scipy.special import logsumexp
 
 
 # Author: Krzysztof Joachimiak

@@ -5,7 +5,7 @@ import warnings
 from sklearn.metrics import accuracy_score
 import numpy as np
 from sklearn.base import BaseEstimator
-from sklearn.externals import six
+import six
 from bace.utils import get_complement_matrix
 
 # Warnings

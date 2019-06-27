@@ -13,3 +13,4 @@ __all__ = [
     'Benchmark',
     'BenchmarkNaiveBayes'
 ]
+

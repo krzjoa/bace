@@ -33,13 +33,13 @@ You can install this module directly from GitHub repo with command:
 
 ::
 
-    pip install git+https://github.com/krzjoa/Bayes.git
+    python3.7 -m pip install git+https://github.com/krzjoa/bace.git
 
 or as a PyPI package
 
 ::
 
-    pip install bayes-variants
+    python3.7 -m pip install bace
 
 
 Usage
