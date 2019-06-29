@@ -1,4 +1,4 @@
-# bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/logo1.png" align="right" width = "100px"/>
+# bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/logo1.png" align="right" width = "75px"/>
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
