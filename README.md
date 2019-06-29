@@ -1,11 +1,8 @@
-# bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/logo1.png" align="right" width = "120px"/>
+# bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/logo1.png" align="right" width = "100px"/>
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
-
 ## Algorithms
-
-
 * Complement Naive Bayes
 * Negation Naive Bayes
 * Universal-set Naive Bayes
@@ -15,16 +12,15 @@ A deck of Naive Bayes algorithms with sklearn-like API.
 
 You can install this module directly from GitHub repo with command:
 
-::
-
-    python3.7 -m pip install git+https://github.com/krzjoa/bace.git
+````
+python3.7 -m pip install git+https://github.com/krzjoa/bace.git
+````
 
 or as a PyPI package
 
-::
-
-    python3.7 -m pip install bace
-
+````
+python3.7 -m pip install bace
+````
 
 ## Usage
 
@@ -32,37 +28,32 @@ Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modul
 
 
 ```` python
+from bace import ComplementNB
+from sklearn.datasets import fetch_20newsgroups
+from sklearn.feature_extraction.text import CountVectorizer
 
-    from bace import ComplementNB
-    from sklearn.datasets import fetch_20newsgroups
-    from sklearn.feature_extraction.text import CountVectorizer
-    
-    
-    vectorizer = CountVectorizer()
-    categories = ['alt.atheism', 'talk.religion.misc',
+vectorizer = CountVectorizer()
+categories = ['alt.atheism', 'talk.religion.misc',
                   'comp.graphics', 'sci.space']
     
-    # Train set
-    newsgroups_train = fetch_20newsgroups(subset='train',
+# Train set
+newsgroups_train = fetch_20newsgroups(subset='train',
                                               categories=categories, shuffle=True)
-    X_train = vectorizer.fit_transform(newsgroups_train.data)
-    y_train = newsgroups_train.target
+X_train = vectorizer.fit_transform(newsgroups_train.data)
+y_train = newsgroups_train.target
     
-    # Test set
-    newsgroups_test = fetch_20newsgroups(subset='test',
-                                              categories=categories, shuffle=True)
-    X_test = vectorizer.fit_transform(newsgroups_test.data)
-    y_test = newsgroups_test.target
-    
-    # Score 
-    cnb = ComplementNB()
-    cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
+# Test set
+newsgroups_test = fetch_20newsgroups(subset='test',
+                                     categories=categories, shuffle=True)
+X_test = vectorizer.fit_transform(newsgroups_test.data)
+y_test = newsgroups_test.target
 
+# Score 
+cnb = ComplementNB()
+cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 ````
 
-
 ## TODO list
-
 * Weighted Complement Naive Bayes
 * Locally Weighted Naive Bayes
 
