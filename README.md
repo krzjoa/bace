@@ -12,22 +12,20 @@
 .. |Travis| image:: https://travis-ci.org/krzjoa/Bayes.svg?branch=master
 .. _Travis: https://travis-ci.org/krzjoa/Bayes
 
-bace
-=====
+# bace
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
 
-Algorithms
-----------
+## Algorithms
+
 
 * Complement Naive Bayes
 * Negation Naive Bayes
 * Universal-set Naive Bayes
 * Selective Naive Bayes
 
-Installation
-------------
+## Installation
 
 You can install this module directly from GitHub repo with command:
 
@@ -42,13 +40,12 @@ or as a PyPI package
     python3.7 -m pip install bace
 
 
-Usage
------
+## Usage
 
 Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modules/classes.html>`_ API, so usage is very simple.
 
 
-.. code-block:: python
+```` python
 
     from bace import ComplementNB
     from sklearn.datasets import fetch_20newsgroups
@@ -75,11 +72,11 @@ Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modul
     cnb = ComplementNB()
     cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 
+````
 
 
+## TODO list
 
-TODO list
----------
 * Weighted Complement Naive Bayes
 * Locally Weighted Naive Bayes
 
