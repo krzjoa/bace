@@ -1,18 +1,4 @@
-|Python37|_ |Documentation|_ |Pypi|_  |Travis|_
-
-.. |Documentation| image:: https://readthedocs.org/projects/bayes/badge/?version=latest
-.. _Documentation: http://bayes.readthedocs.io/en/latest/?badge=latest
-
-.. |Pypi| image:: https://badge.fury.io/py/bayes-variants.svg
-.. _Pypi: https://badge.fury.io/py/bayes-variants
-
-.. |Python37| image:: https://img.shields.io/badge/python-3.7-blue.svg
-.. _Python37: https://badge.fury.io/py/bayes-variants
-
-.. |Travis| image:: https://travis-ci.org/krzjoa/Bayes.svg?branch=master
-.. _Travis: https://travis-ci.org/krzjoa/Bayes
-
-# bace
+# bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/logo1.png" align="right" width = "120px"/>
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
