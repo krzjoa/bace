@@ -18,9 +18,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os,sys
-import m2r
 
-m2r.parse_from_file("README.md")
 
 
 sys.path.insert(0, os.path.abspath('../..'))
