@@ -18,6 +18,9 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os,sys
+import m2r
+
+m2r.parse_from_file("README.md")
 
 
 sys.path.insert(0, os.path.abspath('../..'))
@@ -155,13 +158,13 @@ html_theme = 'default'
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 #
-# html_logo = "bace-of-spades.png"
+html_logo = "../img/bos-small.png"
 
 # The name of an image file (relative to this directory) to use as a favicon of
 # the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
 #
-# html_favicon = None
+html_favicon = "../img/bos.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
