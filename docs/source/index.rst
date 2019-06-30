@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. include:: ../../README.rst
+.. include:: ../../README.md
 
 Contents:
 
@@ -11,7 +11,6 @@ Contents:
    :maxdepth: 3
 
    api
-   algorithms
 
 .. Indices and tables
  ==================

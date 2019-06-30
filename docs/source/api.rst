@@ -2,7 +2,7 @@
 Bayes API
 =========
 
-.. currentmodule:: bayes.classifiers
+.. currentmodule:: bace
 
 .. autosummary::
     :toctree:
@@ -12,7 +12,7 @@ Bayes API
     UniversalSetNB
     SelectiveNB
 
-.. automodule:: bayes.classifiers
+.. automodule:: bace
     :members:
     :undoc-members:
     :inherited-members:
