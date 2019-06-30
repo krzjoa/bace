@@ -35,7 +35,7 @@ import bace
 # ones.
 #extensions = ['sphinx.ext.autodoc', 'sphinxcontrib.napoleon', 'sphinx.ext.viewcode', 'sphinx.ext.autosummary']
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.viewcode',
-              'sphinx.ext.autosummary', 'sphinx.ext.mathjax']
+              'sphinx.ext.autosummary', 'sphinx.ext.mathjax',  'm2r']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -43,8 +43,8 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
+#source_suffix = '.rst'
 
 # The encoding of source files.
 #
@@ -155,7 +155,7 @@ html_theme = 'default'
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 #
-html_logo = "../img/bace-of-spades.png"
+html_logo = "https://raw.githubusercontent.com/krzjoa/bace/master/img/bace-of-spades.png"
 
 # The name of an image file (relative to this directory) to use as a favicon of
 # the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
