@@ -9,7 +9,6 @@ from bace.utils import inherit_docstring, safe_matmult
 
 @inherit_docstring
 class ComplementNB(BaseNB):
-
     '''
     Complement Naive Bayes classifier
 
@@ -19,6 +18,8 @@ class ComplementNB(BaseNB):
         Smoothing parameter
     weight_normalized: bool, default False
         Enable Weight-normalized Complement Naive Bayes method.
+        In fact, the normalization described in the paper seems to not work correctly.
+        Instead, this implementation follows
 
     Attributes
     ----------
@@ -61,14 +62,21 @@ class ComplementNB(BaseNB):
         self.alpha = alpha
         self._check_alpha_param()
 
-        if weight_normalized:
-            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
+        #if weight_normalized:
+        #    self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
 
         self.weight_normalized = weight_normalized
 
         # Computed attributes
         self.complement_features_ = None
         self.alpha_sum_ = None
+
+        self._to_be_reset = [
+                "classes_",
+                "class_counts_",
+                "complement_features_ ",
+                "complement_class_counts_"
+        ]
 
     def fit(self, X, y):
         self._reset()
@@ -118,14 +126,8 @@ class ComplementNB(BaseNB):
         if not self.classes_:
             self.classes_ = lb.classes_
 
-        #self._class_log_prob()
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
-
-        #print "CNB class count", self.class_count_
-        #print "CNB complement class count", self.complement_class_count_
-        #print "CNB features", self.features_
-        #print "CNB complement features", self.complement_features
 
     def _reset(self):
         '''
@@ -137,3 +139,4 @@ class ComplementNB(BaseNB):
         self.class_counts_ = None
         self.complement_features_ = None
         self.complement_class_counts_ = None
+

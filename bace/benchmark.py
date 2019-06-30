@@ -2,7 +2,8 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.base import BaseEstimator
 from sklearn.metrics import accuracy_score
 from bace import ComplementNB, NegationNB, SelectiveNB, UniversalSetNB
-
+import bace.skl as skl
+import bace.skl
 
 
 class Benchmark(BaseEstimator):
@@ -85,10 +86,12 @@ class BenchmarkNaiveBayes(Benchmark):
 
     CLASSIFIERS = [
         MultinomialNB(),
-        ComplementNB(),
+        skl.ComplementNB(norm=True),
+        ComplementNB(weight_normalized=True),
         NegationNB(),
         SelectiveNB(),
-        UniversalSetNB()
+        UniversalSetNB(),
+        skl.ComplementNB(norm=True)
     ]
 
     def __init__(self):
@@ -96,6 +99,9 @@ class BenchmarkNaiveBayes(Benchmark):
 
 
 if __name__ == '__main__':
-    from utils import get_data
+    from bace.utils import get_data
     X_train, y_train, X_test, y_test = get_data()
+    print("input X", type(X_train))
     bnb = BenchmarkNaiveBayes()
+    bnb.fit(X_train, y_train)
+    bnb.compare(X_test, y_test)

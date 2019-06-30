@@ -38,7 +38,7 @@ categories = ['alt.atheism', 'talk.religion.misc',
     
 # Train set
 newsgroups_train = fetch_20newsgroups(subset='train',
-                                              categories=categories, shuffle=True)
+                                      categories=categories, shuffle=True)
 X_train = vectorizer.fit_transform(newsgroups_train.data)
 y_train = newsgroups_train.target
     

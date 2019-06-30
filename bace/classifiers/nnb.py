@@ -39,6 +39,13 @@ class NegationNB(BaseNB):
         self.classes_ = None
         self.class_counts_ = None
 
+        self._to_be_reset = [
+                "classes_",
+                "class_counts_",
+                "complement_features_ ",
+                "complement_class_counts_"
+        ]
+
 
     def fit(self, X, y):
         self._reset()
@@ -93,14 +100,3 @@ class NegationNB(BaseNB):
         self.complement_class_proba_ = (self.complement_class_count_  / all_samples_count) ** -1
         #self.class_log_proba_ = np.log(self.complement_class_counts_)
 
-
-    def _reset(self):
-        '''
-
-        Reset object params for refit
-
-        '''
-        self.classes_ = None
-        self.class_counts_ = None
-        self.complement_features_ = None
-        self.complement_class_counts_ = None

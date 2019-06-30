@@ -46,6 +46,13 @@ class SelectiveNB(BaseNB):
         self.complement_features_ = None
         self.features_ = None
 
+        self._to_be_reset = [
+                "classes_",
+                "class_counts_",
+                "complement_features_ ",
+                "complement_class_counts_"
+        ]
+
     def fit(self, X, y):
         self._reset()
         self._partial_fit(X, y)
@@ -135,10 +142,3 @@ class SelectiveNB(BaseNB):
         self._update_complement_features(X, y_one_hot)
         self._update_features(X, y_one_hot)
         self.is_fitted = True
-
-
-    def _reset(self):
-        self.classes_ = None
-        self.class_counts_ = None
-        self.complement_features_ = None
-        self.complement_class_counts_ = None

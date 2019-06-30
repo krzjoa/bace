@@ -1,15 +1,18 @@
-from sklearn.exceptions import NotFittedError
 from abc import ABCMeta, abstractmethod
 from scipy.sparse import csr_matrix
 import warnings
-from sklearn.metrics import accuracy_score
 import numpy as np
+
+from sklearn.metrics import accuracy_score
 from sklearn.base import BaseEstimator
+from sklearn.utils import check_X_y
+from sklearn.exceptions import NotFittedError
+from sklearn.preprocessing import LabelBinarizer
+
 import six
 from bace.utils import get_complement_matrix
 
 # Warnings
-
 
 class AlphaZeroWarning(Warning):
     pass
@@ -31,7 +34,7 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self.classes_ = None
         self.class_count_ = None
 
-    # Properties
+        self._to_be_reset = []
 
     @property
     def complement_class_count_(self):
@@ -63,9 +66,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         all_samples_count = np.float64(np.sum(self.class_count_))
         return np.log(self.class_count_ / all_samples_count)
 
-
-    # Fitting model
-
     def fit(self, X, y):
         '''
 
@@ -84,6 +84,20 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
             Returns self.
         '''
         self._reset()
+
+        # Convert matrices to sparse
+        # TODO: Check type and convert to csr, use own function
+        X, y = check_X_y(X, y, "csr")
+
+        # Check labels
+        lb = LabelBinarizer()
+        y_one_hot = lb.fit_transform(y)
+        self.classes_ = lb.classes_
+
+
+        self.class_count_ = np.sum(y_one_hot, axis=0)
+
+
         self._partial_fit(X, y)
         return self
 
@@ -113,6 +127,22 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
     @abstractmethod
     def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
         ''''''
+
+        if first_partial_fit and not classes:
+            raise ValueError("classes must be passed on the first call "
+                         "to partial_fit.")
+
+        if not self.is_fitted:
+            self.alpha_sum_ = X.shape[1] * self.alpha
+
+        if classes:
+            self.classes_ = classes
+
+
+
+        if not self.classes_:
+            self.classes_ = lb.classes_
+
 
     @abstractmethod
     def predict(self, X):
@@ -183,9 +213,9 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
             order, as they appear in the attribute `classes_`.
         """
 
-    @abstractmethod
     def _reset(self):
-        ''''''
+        for key in self._to_be_reset:
+            self.__dict__[key] = None
 
     def predict_proba(self, X):
         """
@@ -241,5 +271,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
 
     def safe_matmult(self, input_array, internal_array):
         if isinstance(input_array, csr_matrix):
-            input_array = input_array.toarray()
+            #input_array = input_array.toarray()
+            internal_array = csr_matrix(internal_array)
         return input_array.dot(internal_array.T)

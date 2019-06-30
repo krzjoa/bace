@@ -55,14 +55,12 @@ def get_data():
                   'comp.graphics', 'sci.space']
 
     # Train set
-    newsgroups_train = fetch_20newsgroups(subset='train',
-                                          categories=categories, shuffle=True)
+    newsgroups_train = fetch_20newsgroups(subset='train', shuffle=True)
     X_train = vectorizer.fit_transform(newsgroups_train.data)
     y_train = newsgroups_train.target
 
     # Test set
-    newsgroups_test = fetch_20newsgroups(subset='test',
-                                         categories=categories, shuffle=True)
+    newsgroups_test = fetch_20newsgroups(subset='test',  shuffle=True)
     X_test = vectorizer.transform(newsgroups_test.data)
     y_test = newsgroups_test.target
 
