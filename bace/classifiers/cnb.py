@@ -13,6 +13,13 @@ class ComplementNB(BaseNB):
     '''
     Complement Naive Bayes classifier
 
+    References
+    ----------
+    Rennie J. D. M., Shih L., Teevan J., Karger D. R.  (2003).
+    Tackling the Poor Assumptions of Naive Bayes Text Classifiers
+
+    https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
+
     Parameters
     ----------
     alpha: float
@@ -46,12 +53,7 @@ class ComplementNB(BaseNB):
     >>> clf = ComplementNB()
     >>> clf.fit(newsgroups_train, train_vectors).accuracy_score(newsgroups_test, test_vectors)
 
-    References
-    ----------
-    Rennie J. D. M., Shih L., Teevan J., Karger D. R.  (2003).
-    Tackling the Poor Assumptions of Naive Bayes Text Classifiers
 
-    https://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf
     '''
 
     def __init__(self, alpha=1.0, weight_normalized=False):
