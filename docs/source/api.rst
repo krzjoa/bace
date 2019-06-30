@@ -1,5 +1,5 @@
 =========
-Bayes API
+bace API
 =========
 
 .. currentmodule:: bace
