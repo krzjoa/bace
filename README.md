@@ -24,7 +24,7 @@ python3.7 -m pip install bace
 
 ## Usage
 
-Bayes classifiers API mimics [scikit-Learn](http://scikit-learn.org/stable/modules/classes.html>) API, so usage is very simple.
+Bayes classifiers API mimics [scikit-learn](http://scikit-learn.org/stable/modules/classes.html) API, so usage is very simple.
 
 
 ```` python
