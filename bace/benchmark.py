@@ -96,6 +96,8 @@ class BenchmarkNaiveBayes(Benchmark):
 
 
 if __name__ == '__main__':
-    from utils import get_data
+    from bace.utils import get_data
     X_train, y_train, X_test, y_test = get_data()
     bnb = BenchmarkNaiveBayes()
+    bnb.fit(X_train, y_train)
+    bnb.compare(X_test, y_test)
