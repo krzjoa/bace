@@ -18,9 +18,10 @@ def safe_mult(input_array, internal_array):
 
 
 def safe_matmult(input_array, internal_array):
-    if isinstance(input_array, csr_matrix):
-        input_array = input_array.toarray()
-    return input_array.dot(internal_array.T)
+    return input_array @ internal_array
+    # if isinstance(input_array, csr_matrix):
+    #     input_array = input_array.toarray()
+    # return input_array.dot(internal_array.T)
 
 # =============================================== #
 #                   DOCS UTILS                    #
@@ -56,13 +57,13 @@ def get_data():
 
     # Train set
     newsgroups_train = fetch_20newsgroups(subset='train',
-                                          categories=categories, shuffle=True)
+                                         shuffle=True)
     X_train = vectorizer.fit_transform(newsgroups_train.data)
     y_train = newsgroups_train.target
 
     # Test set
     newsgroups_test = fetch_20newsgroups(subset='test',
-                                         categories=categories, shuffle=True)
+                                          shuffle=True)
     X_test = vectorizer.transform(newsgroups_test.data)
     y_test = newsgroups_test.target
 

@@ -53,8 +53,7 @@ class ComplementNB(BaseNB):
     >>> clf = ComplementNB()
     >>> clf.fit(newsgroups_train, train_vectors).accuracy_score(newsgroups_test, test_vectors)
 
-
-    '''
+   '''
 
     def __init__(self, alpha=1.0, weight_normalized=False):
         super(ComplementNB, self).__init__()
@@ -63,8 +62,8 @@ class ComplementNB(BaseNB):
         self.alpha = alpha
         self._check_alpha_param()
 
-        if weight_normalized:
-            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
+        # if weight_normalized:
+        #     self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
 
         self.weight_normalized = weight_normalized
 
@@ -94,7 +93,7 @@ class ComplementNB(BaseNB):
             # from scipy.misc import logsumexp
             # features_weights = features_weights - logsumexp(features_weights, axis=0)
 
-        features_doc_logprob = safe_matmult(X, features_weights.T)
+        features_doc_logprob = safe_matmult(X, features_weights)
 
         return (features_doc_logprob * - np.exp(-1)) + self.class_log_proba_
 
@@ -123,11 +122,6 @@ class ComplementNB(BaseNB):
         #self._class_log_prob()
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
-
-        #print "CNB class count", self.class_count_
-        #print "CNB complement class count", self.complement_class_count_
-        #print "CNB features", self.features_
-        #print "CNB complement features", self.complement_features
 
     def _reset(self):
         '''
