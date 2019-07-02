@@ -7,7 +7,6 @@ from bace.base import BaseNB
 from bace.utils import get_complement_matrix, inherit_docstring
 
 
-
 @inherit_docstring
 class NegationNB(BaseNB):
 
@@ -56,7 +55,7 @@ class NegationNB(BaseNB):
         self._check_is_fitted()
         denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
-        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        features_doc_logprob = X @ features_weights
         return (features_doc_logprob * - np.exp(1)) + self.class_log_proba_
 
     # Fitting model

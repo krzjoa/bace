@@ -4,8 +4,10 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from bace.base import BaseNB
-from bace.utils import inherit_docstring, safe_matmult
+from bace.utils import inherit_docstring
+from scipy.special import logsumexp
 
+# TODO: check weight normalization
 
 @inherit_docstring
 class ComplementNB(BaseNB):
@@ -63,8 +65,8 @@ class ComplementNB(BaseNB):
         self.alpha = alpha
         self._check_alpha_param()
 
-        if weight_normalized:
-            self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
+        # if weight_normalized:
+        #     self._not_implemented_yet('Weighted Complement Naive Bayes is not implemented yet!')
 
         self.weight_normalized = weight_normalized
 
@@ -90,11 +92,11 @@ class ComplementNB(BaseNB):
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
 
         if self.weight_normalized:
-            features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
-            # from scipy.misc import logsumexp
-            # features_weights = features_weights - logsumexp(features_weights, axis=0)
+            #features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
+            #features_weights = features_weights / features_weights.sum(axis=1, keepdims=True)
+            features_weights = features_weights - logsumexp(features_weights, axis=0)
 
-        features_doc_logprob = safe_matmult(X, features_weights.T)
+        features_doc_logprob = X @ features_weights
 
         return (features_doc_logprob * - np.exp(-1)) + self.class_log_proba_
 
@@ -123,11 +125,6 @@ class ComplementNB(BaseNB):
         #self._class_log_prob()
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
-
-        #print "CNB class count", self.class_count_
-        #print "CNB complement class count", self.complement_class_count_
-        #print "CNB features", self.features_
-        #print "CNB complement features", self.complement_features
 
     def _reset(self):
         '''

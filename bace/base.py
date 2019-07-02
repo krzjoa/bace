@@ -227,7 +227,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
 
-
     def _check_is_fitted(self):
         if not self.is_fitted:
             raise NotFittedError
@@ -238,8 +237,3 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
 
     def _not_implemented_yet(self, message):
         warnings.warn(NotImplementedYet(message))
-
-    def safe_matmult(self, input_array, internal_array):
-        if isinstance(input_array, csr_matrix):
-            input_array = input_array.toarray()
-        return input_array.dot(internal_array.T)

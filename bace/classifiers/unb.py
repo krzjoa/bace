@@ -4,7 +4,7 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer
 from bace.base import BaseNB
-from bace.utils import safe_matmult, inherit_docstring
+from bace.utils import inherit_docstring
 
 
 # Author: Krzysztof Joachimiak
@@ -62,13 +62,13 @@ class UniversalSetNB(BaseNB):
     def _complement_log_proba(self, X):
         denominator = np.sum(self.complement_features_, axis=0) + self.alpha_sum_
         features_weights = np.log((self.complement_features_ + self.alpha) / denominator)
-        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        features_doc_logprob = X @ features_weights
         return (features_doc_logprob) + self.complement_class_log_proba_
 
     def _log_proba(self, X):
         denominator = np.sum(self.features_, axis=0) + self.alpha_sum_
         features_weights = np.log((self.features_ + self.alpha) / denominator)
-        features_doc_logprob = self.safe_matmult(X, features_weights.T)
+        features_doc_logprob = X @ features_weights
         return (features_doc_logprob) + self.class_log_proba_
 
     # Fitting model
