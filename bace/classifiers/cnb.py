@@ -95,7 +95,8 @@ class ComplementNB(BaseNB):
             #features_weights = features_weights / np.sum(np.absolute(features_weights), axis=0)
             #features_weights = features_weights / features_weights.sum(axis=1, keepdims=True)
             features_weights = features_weights - logsumexp(features_weights, axis=0)
-
+        
+        # TODO: Check order of operations: if logging should not be aplied after dot product
         features_doc_logprob = X @ features_weights
 
         return (features_doc_logprob * - np.exp(-1)) + self.class_log_proba_
