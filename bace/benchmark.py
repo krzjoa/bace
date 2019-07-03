@@ -85,6 +85,8 @@ class BenchmarkNaiveBayes(Benchmark):
         MultinomialNB(),
         ComplementNB(weight_normalized=True),
         ComplementNB(),
+        skl.naive_bayes.ComplementNB(),
+        skl.naive_bayes.ComplementNB(norm=True),
         NegationNB(),
         SelectiveNB(),
         UniversalSetNB()

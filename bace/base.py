@@ -1,11 +1,12 @@
-from sklearn.exceptions import NotFittedError
-from abc import ABCMeta, abstractmethod
-from scipy.sparse import csr_matrix
-import warnings
-from sklearn.metrics import accuracy_score
 import numpy as np
-from sklearn.base import BaseEstimator
+from abc import ABCMeta, abstractmethod
+import warnings
 import six
+from sklearn.exceptions import NotFittedError
+from sklearn.metrics import accuracy_score
+from sklearn.base import BaseEstimator
+from sklearn.preprocessing import LabelBinarizer
+from scipy.sparse import csr_matrix
 from bace.utils import get_complement_matrix
 
 # Warnings
@@ -63,9 +64,7 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         all_samples_count = np.float64(np.sum(self.class_count_))
         return np.log(self.class_count_ / all_samples_count)
 
-
     # Fitting model
-
     def fit(self, X, y):
         '''
 
@@ -87,7 +86,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self._partial_fit(X, y)
         return self
 
-    @abstractmethod
     def partial_fit(self, X, y, classes=None):
         """
         Incremental fit on a batch of samples.
@@ -109,6 +107,8 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         self : object
              Returns self.
         """
+        self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
+        return self
 
     @abstractmethod
     def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
@@ -143,10 +143,10 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
             Binary matrix encoding input
         '''
         # FIXME: complement_features nomenclature is incoherent
-        if not self.is_fitted:
-            self.complement_features = X.T.dot(np.logical_not(y_one_hot))
+        if self.is_fitted:
+            self.complement_features += X.T @ np.logical_not(y_one_hot)
         else:
-            self.complement_features += X.T.dot(np.logical_not(y_one_hot))
+            self.complement_features = X.T @ np.logical_not(y_one_hot)
 
     def _update_features(self, X, y_one_hot):
         '''
@@ -160,12 +160,10 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         y_one_hot: numpy array (n_samples, n_classes)
             Binary matrix encoding input
         '''
-        if not self.is_fitted:
-            self.features_ = X.T.dot(y_one_hot)
+        if self.is_fitted:
+            self.features_ += X.T @ y_one_hot
         else:
-            self.features_ += X.T.dot(y_one_hot)
-
-
+            self.features_ = X.T @ y_one_hot
 
     @abstractmethod
     def predict_log_proba(self, X):
@@ -182,10 +180,6 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
             the model. The columns correspond to the classes in sorted
             order, as they appear in the attribute `classes_`.
         """
-
-    @abstractmethod
-    def _reset(self):
-        ''''''
 
     def predict_proba(self, X):
         """
@@ -226,6 +220,37 @@ class BaseNB(six.with_metaclass(ABCMeta, BaseEstimator)):
         '''
         self._check_is_fitted()
         return accuracy_score(y, self.predict(X))
+
+    def _prepare_X_y(self, X, y, first_partial_fit, classes):
+        if first_partial_fit and not classes:
+            raise ValueError("classes must be passed on the first call "
+                         "to partial_fit.")
+
+        if not self.is_fitted:
+            self.alpha_sum_ = X.shape[1] * self.alpha
+
+        if classes:
+            self.classes_ = classes
+
+        lb = LabelBinarizer()
+        y_one_hot = lb.fit_transform(y)
+        self.class_count_ = np.sum(y_one_hot, axis=0)
+
+        if not self.classes_:
+            self.classes_ = lb.classes_
+
+        return X, y_one_hot
+
+    def _reset(self):
+        '''
+
+        Reset object params for refit
+
+        '''
+        self.classes_ = None
+        self.class_counts_ = None
+        self.complement_features_ = None
+        self.complement_class_counts_ = None
 
     def _check_is_fitted(self):
         if not self.is_fitted:

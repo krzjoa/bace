@@ -38,16 +38,6 @@ class NegationNB(BaseNB):
         self.classes_ = None
         self.class_counts_ = None
 
-
-    def fit(self, X, y):
-        self._reset()
-        self._partial_fit(X, y)
-        return self
-
-    def partial_fit(self, X, y, classes=None):
-        self._partial_fit(X, y, classes=classes, first_partial_fit=not self.is_fitted)
-        return self
-
     def predict(self, X):
         return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
 
@@ -58,27 +48,9 @@ class NegationNB(BaseNB):
         features_doc_logprob = X @ features_weights
         return (features_doc_logprob * - np.exp(1)) + self.class_log_proba_
 
-    # Fitting model
 
     def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
-
-        if first_partial_fit and not classes:
-            raise ValueError("classes must be passed on the first call "
-                             "to partial_fit.")
-
-        if not self.is_fitted:
-            self.alpha_sum_ = X.shape[1] * self.alpha
-
-        if classes:
-            self.classes_ = classes
-
-        lb = LabelBinarizer()
-        y_one_hot = lb.fit_transform(y)
-        self.class_count_ = np.sum(y_one_hot, axis=0)
-
-        if not self.classes_:
-            self.classes_ = lb.classes_
-
+        X, y_one_hot = self._prepare_X_y(X, y, first_partial_fit, classes)
         self._class_log_prob()
         self._update_complement_features(X, y_one_hot)
         self.is_fitted = True
@@ -92,14 +64,3 @@ class NegationNB(BaseNB):
         self.complement_class_proba_ = (self.complement_class_count_  / all_samples_count) ** -1
         #self.class_log_proba_ = np.log(self.complement_class_counts_)
 
-
-    def _reset(self):
-        '''
-
-        Reset object params for refit
-
-        '''
-        self.classes_ = None
-        self.class_counts_ = None
-        self.complement_features_ = None
-        self.complement_class_counts_ = None
