@@ -53,9 +53,6 @@ cnb = ComplementNB()
 cnb.fit(X_train, y_train).accuracy_score(X_test, y_test)
 ````
 
-## TODO list
-* Weighted Complement Naive Bayes
-* Locally Weighted Naive Bayes
 
 
 
