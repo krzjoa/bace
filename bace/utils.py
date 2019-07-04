@@ -5,7 +5,6 @@ import types
 #                   MATRIX UTILS                  #
 # =============================================== #
 
-
 def get_complement_matrix(size):
     ones = np.ones((size,))
     return np.logical_not(np.diag(ones))

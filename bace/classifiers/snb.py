@@ -2,11 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from sklearn.preprocessing import LabelBinarizer
 from bace.base import BaseNB
 from bace.utils import inherit_docstring
 from scipy.special import logsumexp
-
 
 # Author: Krzysztof Joachimiak
 
@@ -28,7 +26,6 @@ class SelectiveNB(BaseNB):
 
     http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf
     '''
-
 
     _threshold = np.log(0.5)
 

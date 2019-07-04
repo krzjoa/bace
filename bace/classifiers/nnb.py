@@ -2,7 +2,6 @@
 # Author: Krzysztof Joachimiak
 
 import numpy as np
-from sklearn.preprocessing import LabelBinarizer
 from bace.base import BaseNB
 from bace.utils import get_complement_matrix, inherit_docstring
 
@@ -39,15 +38,14 @@ class NegationNB(BaseNB):
         self.class_counts_ = None
 
     def predict(self, X):
-        return self.classes_[np.argmax(self.predict_log_proba(X), axis=1)]
+        return self.classes_[np.argmin(self.predict_log_proba(X), axis=1)]
 
     def predict_log_proba(self, X):
         self._check_is_fitted()
         denominator = np.sum(self.complement_features, axis=0) + self.alpha_sum_
         features_weights = np.log((self.complement_features + self.alpha) / denominator)
         features_doc_logprob = X @ features_weights
-        return (features_doc_logprob * - np.exp(1)) + self.class_log_proba_
-
+        return self.class_log_proba_ + features_doc_logprob
 
     def _partial_fit(self, X, y, classes=None, first_partial_fit=None):
         X, y_one_hot = self._prepare_X_y(X, y, first_partial_fit, classes)
@@ -61,6 +59,4 @@ class NegationNB(BaseNB):
         '''
         all_samples_count = np.float64(np.sum(self.class_count_))
         self.complement_class_counts_ = self.class_count_.dot(get_complement_matrix(len(self.class_count_)))
-        self.complement_class_proba_ = (self.complement_class_count_  / all_samples_count) ** -1
-        #self.class_log_proba_ = np.log(self.complement_class_counts_)
-
+        self.complement_class_proba_ = (self.complement_class_count_ / all_samples_count) ** -1
