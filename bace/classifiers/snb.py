@@ -24,7 +24,7 @@ class SelectiveNB(BaseNB):
     Komiya K., Ito Y., Kotani Y. (2013).
     New Naive Bayes Methods using Data from All Classes
 
-    http://aia-i.com/ijai/sample/vol5/no1/1-13.pdf
+    https://github.com/krzjoa/bace/blob/master/papers/snb.pdf
     '''
 
     _threshold = np.log(0.5)
