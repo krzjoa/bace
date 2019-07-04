@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-
 from setuptools import setup, find_packages
-
 
 #if sys.argv[-1] == 'publish':
 #    os.system('python setup.py sdist upload')
@@ -12,11 +10,11 @@ with open('bace/__init__.py') as fid:
         if line.startswith('__version__'):
             VERSION = line.strip().split()[-1][1:-1]
             break
-
+            
 with open('requirements.txt') as fid:
     INSTALL_REQUIRES = [l.strip() for l in fid.readlines() if l]
 
-readme = open('README.rst').read()
+readme = open('README.md').read()
 doclink = """
 Documentation
 -------------
