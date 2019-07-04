@@ -1,6 +1,9 @@
 # bace <img src="https://raw.githubusercontent.com/krzjoa/bace/master/img/bace-of-spades.png" align="right" width = "75px"/>
 ![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg) 
-[![Build Status](https://travis-ci.org/rasbt/mlxtend.svg?branch=master)](https://travis-ci.org/krzjoa/Bayes)
+[![Build Status](https://travis-ci.org/rasbt/mlxtend.svg?branch=master)](https://travis-ci.org/krzjoa/Bayes) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
+[![Documentation Status](https://readthedocs.org/projects/bace/badge/?version=latest)](https://bace.readthedocs.io/en/latest/?badge=latest) 
+[![PyPI version](https://badge.fury.io/py/bace.svg)](https://badge.fury.io/py/bace) 
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
