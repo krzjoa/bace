@@ -1,20 +1,20 @@
 bace
 ====
 .. image:: https://img.shields.io/badge/python-3.7-blue.svg
-:target: https://bace.readthedocs.io/en/latest/?badge=latest
-:alt: Python version
+    :target: https://bace.readthedocs.io/en/latest/?badge=latest
+    :alt: Python version
 .. image:: https://readthedocs.org/projects/bace/badge/?version=latest
-:target: https://badge.fury.io/py/bace
-:alt: PyPI
+    :target: https://badge.fury.io/py/bace
+    :alt: PyPI
 .. image:: https://travis-ci.org/rasbt/mlxtend.svg?branch=master
-:target: https://travis-ci.org/krzjoa/Bayes
-:alt: CI
+    :target: https://travis-ci.org/krzjoa/Bayes
+    :alt: CI
 .. image:: https://readthedocs.org/projects/bace/badge/?version=latest
-:target: https://bace.readthedocs.io/en/latest/?badge=latest
-:alt: Documentation Status
+    :target: https://bace.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
-:target: https://opensource.org/licenses/MIT)
-:alt: Licence
+    :target: https://opensource.org/licenses/MIT)
+    :alt: Licence
 
 A deck of Naive Bayes algorithms with sklearn-like API.
 
@@ -42,7 +42,7 @@ or as a PyPI package
 Usage
 -----
 
-Bayes classifiers API mimics `Scikit-Learn <http://scikit-learn.org/stable/modules/classes.html>`_ API, so usage is very simple.
+**bace** mimics `Scikit-Learn <http://scikit-learn.org/stable/modules/classes.html>`_ API, so usage is very simple.
 
 .. code-block:: python
 
